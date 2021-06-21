@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="66215ac7-7bf9-4304-a9ae-e9e32a377eec" name="Default Changelist" comment="move sources">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/learnswift.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/xcode.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/xcode.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="iphonesimulator_7FCBAB8B-51CA-482E-BC96-D6B5B63E1F1E" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="ProjectId" id="1uFxMMsf7k33CUAuOhtERRcAJM3" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="OBJC.PRESERVED_TARGET_SELECTION" value="learnswiftTests" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="cidr.known.project.marker" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/learnswift.xcodeproj" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+  </component>
+  <component name="RunManager" selected="XCTest.learnswiftTests.testExample">
+    <configuration name="learnswift" type="AppleRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="learnswift" TARGET_NAME="learnswift" CONFIG_NAME="Debug" SCHEME_NAME="learnswift" IS_LOCATION_SIMULATION_ALLOWED="true" APPLICATION_LANGUAGE="IDELaunchSchemeLanguageUseSystemLanguage" APPLICATION_REGION="" RUN_TARGET_PROJECT_NAME="learnswift" RUN_TARGET_NAME="learnswift" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
+      <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
+        <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
+      </EXTENSION>
+      <embedded_app_extension_list />
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EditImageTest.testEditPng" type="OCUnitRunConfiguration" factoryName="XCTest/Kiwi" temporary="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="learnswift" TARGET_NAME="learnswiftTests" CONFIG_NAME="Debug" SCHEME_NAME="EditImageTest.testEditPng" IS_LOCATION_SIMULATION_ALLOWED="true" APPLICATION_LANGUAGE="IDELaunchSchemeLanguageUseSystemLanguage" APPLICATION_REGION="" TEST_CLASS="EditImageTest" TEST_METHOD="testEditPng" TEST_MODE="SUITE_TEST">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EditImageTest.testFileManager" type="OCUnitRunConfiguration" factoryName="XCTest/Kiwi" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="learnswift" TARGET_NAME="learnswiftTests" CONFIG_NAME="Debug" SCHEME_NAME="EditImageTest.testFileManager" IS_LOCATION_SIMULATION_ALLOWED="true" APPLICATION_LANGUAGE="IDELaunchSchemeLanguageUseSystemLanguage" APPLICATION_REGION="" TEST_CLASS="EditImageTest" TEST_METHOD="testFileManager" TEST_MODE="SUITE_TEST" XCODE_TESTS_HASH_CODE="-1517444558">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FileManagerTest" type="OCUnitRunConfiguration" factoryName="XCTest/Kiwi" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="learnswift" TARGET_NAME="learnswiftTests" CONFIG_NAME="Debug" SCHEME_NAME="FileManagerTest" IS_LOCATION_SIMULATION_ALLOWED="true" APPLICATION_LANGUAGE="IDELaunchSchemeLanguageUseSystemLanguage" APPLICATION_REGION="" TEST_CLASS="FileManagerTest" TEST_MODE="SUITE_TEST" XCODE_TESTS_HASH_CODE="1142197954">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FileManagerTest.testDataPath2" type="OCUnitRunConfiguration" factoryName="XCTest/Kiwi" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="learnswift" TARGET_NAME="learnswiftTests" CONFIG_NAME="Debug" SCHEME_NAME="FileManagerTest.testDataPath2" IS_LOCATION_SIMULATION_ALLOWED="true" LOCATION_SCENARIO_ID="com.apple.dt.IDEFoundation.CurrentLocationScenarioIdentifier" LOCATION_SCENARIO_TYPE="1" APPLICATION_LANGUAGE="IDELaunchSchemeLanguageUseSystemLanguage" APPLICATION_REGION="" TEST_CLASS="FileManagerTest" TEST_METHOD="testDataPath2" TEST_MODE="SUITE_TEST" XCODE_TESTS_HASH_CODE="97981540">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FileManagerTest.testFileManager" type="OCUnitRunConfiguration" factoryName="XCTest/Kiwi" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="learnswift" TARGET_NAME="learnswiftTests" CONFIG_NAME="Debug" SCHEME_NAME="FileManagerTest.testFileManager" IS_LOCATION_SIMULATION_ALLOWED="true" APPLICATION_LANGUAGE="IDELaunchSchemeLanguageUseSystemLanguage" APPLICATION_REGION="" TEST_CLASS="FileManagerTest" TEST_METHOD="testFileManager" TEST_MODE="SUITE_TEST" XCODE_TESTS_HASH_CODE="382707538">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="learnswiftTests.testExample" type="OCUnitRunConfiguration" factoryName="XCTest/Kiwi" temporary="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="learnswift" TARGET_NAME="learnswiftTests" CONFIG_NAME="Debug" SCHEME_NAME="learnswiftTests.testExample" IS_LOCATION_SIMULATION_ALLOWED="true" APPLICATION_LANGUAGE="IDELaunchSchemeLanguageUseSystemLanguage" APPLICATION_REGION="" TEST_CLASS="learnswiftTests" TEST_METHOD="testExample" TEST_MODE="SUITE_TEST">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.learnswift" />
+      <item itemvalue="XCTest.EditImageTest.testFileManager" />
+      <item itemvalue="XCTest.FileManagerTest" />
+      <item itemvalue="XCTest.FileManagerTest.testDataPath2" />
+      <item itemvalue="XCTest.FileManagerTest.testFileManager" />
+      <item itemvalue="XCTest.EditImageTest.testEditPng" />
+      <item itemvalue="XCTest.learnswiftTests.testExample" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="XCTest.learnswiftTests.testExample" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="66215ac7-7bf9-4304-a9ae-e9e32a377eec" name="Default Changelist" comment="" />
+      <created>1624275091475</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1624275091475</updated>
+      <workItem from="1624275092987" duration="3489000" />
+      <workItem from="1624279901428" duration="27000" />
+      <workItem from="1624280137918" duration="26000" />
+      <workItem from="1624280171533" duration="9000" />
+    </task>
+    <task id="LOCAL-00001" summary="init">
+      <created>1624275267339</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1624275267339</updated>
+    </task>
+    <task id="LOCAL-00002" summary="gitignore">
+      <created>1624279229683</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1624279229683</updated>
+    </task>
+    <task id="LOCAL-00003" summary="let filePath = &quot;\(xCodeProjectDir)/img.png&quot;">
+      <created>1624279634242</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1624279634242</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/.." />
+    </ignored-roots>
+    <MESSAGE value="init" />
+    <MESSAGE value="gitignore" />
+    <MESSAGE value="let filePath = &quot;\(xCodeProjectDir)/img.png&quot;" />
+    <MESSAGE value="move sources" />
+    <option name="LAST_COMMIT_MESSAGE" value="move sources" />
+  </component>
+</project>
