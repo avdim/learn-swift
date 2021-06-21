@@ -14,7 +14,7 @@ class EditImageTest: XCTestCase {
 }
 
 func editPng() -> CGImage? {
-    let filePath = "/Users/dim/github/avdim/kotlin-screenshot-test/desktop/src/jvmMain/resources/github/MainScreenUITests/testEmptyArrivalStationAlert.1.png"
+    let filePath = "\(xCodeProjectDir)/img.png"
 //    let filePath = "/tmp/test/input.png"
     let fileExists = FileManager.default.fileExists(atPath: filePath)
     print("fileExists: \(fileExists)")
