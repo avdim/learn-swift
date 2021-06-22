@@ -14,15 +14,7 @@ class EditImageTest: XCTestCase {
 }
 
 func editPng() {
-    let filePath = "\(xCodeProjectDir)/img.png"
-//    let filePath = "/tmp/test/input.png"
-    let fileExists = FileManager.default.fileExists(atPath: filePath)
-    print("fileExists: \(fileExists)")
-    let img = UIImage(contentsOfFile: filePath)
-    guard let inputCGImage: CGImage = img?.cgImage else {
-        print("can't get img?.cgImage")
-        return
-    }
+    let inputCGImage = getProjectDirImage(imagePath: "img.png")
 
     let width = inputCGImage.width
     let height = inputCGImage.height

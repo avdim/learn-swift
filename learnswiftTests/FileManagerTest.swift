@@ -21,4 +21,13 @@ class FileManagerTest:XCTestCase {
 
 let xCodeProjectDir: String = "/" + URL(fileURLWithPath: #file).pathComponents.dropLast(2).joined(separator: "/")
 
+public func getProjectDirImage(imagePath: String) -> CGImage {
+    let filePath = "\(xCodeProjectDir)/\(imagePath)"
+//    let filePath = "/tmp/test/input.png"
+    let fileExists = FileManager.default.fileExists(atPath: filePath)
+    print("fileExists: \(fileExists)")
+    let img = UIImage(contentsOfFile: filePath)
+    let inputCGImage2: CGImage = img!.cgImage!
+    return inputCGImage2
+}
 
