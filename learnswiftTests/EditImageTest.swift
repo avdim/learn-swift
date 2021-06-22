@@ -13,7 +13,7 @@ class EditImageTest: XCTestCase {
     }
 }
 
-func editPng() -> CGImage? {
+func editPng() {
     let filePath = "\(xCodeProjectDir)/img.png"
 //    let filePath = "/tmp/test/input.png"
     let fileExists = FileManager.default.fileExists(atPath: filePath)
@@ -21,33 +21,27 @@ func editPng() -> CGImage? {
     let img = UIImage(contentsOfFile: filePath)
     guard let inputCGImage: CGImage = img?.cgImage else {
         print("can't get img?.cgImage")
-        return nil
+        return
     }
 
-    /**
-    guard let inputCGImage = image.cgImage else {
-        print("unable to get cgImage")
-        return nil
-    }
-    */
-
-    let colorSpace = CGColorSpaceCreateDeviceRGB()
     let width = inputCGImage.width
     let height = inputCGImage.height
+
+    let colorSpace = CGColorSpaceCreateDeviceRGB()
     let bytesPerPixel = 4
     let bitsPerComponent = 8
     let bytesPerRow = bytesPerPixel * width
     let bitmapInfo = RGBA32.bitmapInfo
 
-    guard let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo) else {
+    guard let context: CGContext = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo) else {
         print("unable to create context")
-        return nil
+        return
     }
 
     context.draw(inputCGImage, in: CGRect(x: 0, y: 0, width: width, height: height))
     guard let buffer = context.data else {
         print("unable to get context data")
-        return nil
+        return
     }
     let pixelBuffer = buffer.bindMemory(to: RGBA32.self, capacity: width * height)
     for row in 0..<Int(height) {
@@ -58,32 +52,34 @@ func editPng() -> CGImage? {
             }
         }
     }
-
-    let outputCGImage: CGImage = context.makeImage()!
-//        let outputImage = UIImage(cgImage: outputCGImage, scale: image.scale, orientation: image.imageOrientation)
-    let destination = "/tmp/test/changed-image.png"
-    print("outputCGImage.width: \(outputCGImage.width)")
-    saveImage(image: UIImage(cgImage: outputCGImage))
-    inputCGImage.bitmapInfo
-    print("return outputCGImage")
-    return outputCGImage
+    context.saveToFile(name: "changed-image.png")
 }
 
-func saveImage(image: UIImage) -> Bool {
-    guard let data = image.jpegData(compressionQuality: 1) ?? image.pngData() else {
-        return false
+extension CGContext {
+    public func saveToFile(name: String) {
+        let outputCGImage: CGImage = self.makeImage()!
+//        let outputImage = UIImage(cgImage: outputCGImage, scale: image.scale, orientation: image.imageOrientation)
+        UIImage(cgImage: outputCGImage).saveToFile(name: name)
     }
-    guard let directory = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) as NSURL else {
-        return false
-    }
-    do {
-        let fileUrl = directory.appendingPathComponent("img.png")
-        print("save file to file: \(fileUrl)")
-        try data.write(to: fileUrl!)
-        return true
-    } catch {
-        print(error.localizedDescription)
-        return false
+}
+
+extension UIImage {
+    public func saveToFile(name: String) -> Bool {
+        guard let data = /*self.jpegData(compressionQuality: 1) ?? */self.pngData() else {
+            return false
+        }
+        guard let directory = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) as NSURL else {
+            return false
+        }
+        do {
+            let fileUrl = directory.appendingPathComponent(name)
+            print("save to file: \(fileUrl)")
+            try data.write(to: fileUrl!)
+            return true
+        } catch {
+            print(error.localizedDescription)
+            return false
+        }
     }
 }
 
