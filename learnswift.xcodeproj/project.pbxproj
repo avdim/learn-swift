@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		184881FC1C59CF8D43AAD305 /* FileManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184883D592D9D3FF3E467258 /* FileManagerTest.swift */; };
+		184882F2A6DBBF7176E18A03 /* SaveImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184883794CC99BFD0BDBA525 /* SaveImage.swift */; };
 		184883753298B9F777B73FFF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18488B3C575C44EE3178D7E7 /* Assets.xcassets */; };
 		184885B038DCC03D6F6D84BE /* EditImageTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184884CD0CD24DE0E91861B0 /* EditImageTest.swift */; };
 		1848887DAB2CF072FBDF69BB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1848838DEA50EF95737E9113 /* Preview Assets.xcassets */; };
@@ -38,6 +39,7 @@
 		1848809771009F7299C29EEF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		184880FF5D268EDD7E16043B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		1848819F2F5B23452BFB1B90 /* learnswift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = learnswift.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		184883794CC99BFD0BDBA525 /* SaveImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveImage.swift; sourceTree = "<group>"; };
 		1848838DEA50EF95737E9113 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		184883D592D9D3FF3E467258 /* FileManagerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManagerTest.swift; sourceTree = "<group>"; };
 		18488402C43B8232556B4D21 /* learnswiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = learnswiftTests.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				18488D1BD2FF1E3F62691454 /* Preview Content */,
 				184888B5766F5ACFC4E92609 /* learnswiftApp.swift */,
 				1848809771009F7299C29EEF /* ContentView.swift */,
+				184883794CC99BFD0BDBA525 /* SaveImage.swift */,
 			);
 			path = learnswift;
 			sourceTree = "<group>";
@@ -250,6 +253,7 @@
 				18488F235F318A5B5279FC6B /* learnswiftTests.swift in Sources */,
 				184885B038DCC03D6F6D84BE /* EditImageTest.swift in Sources */,
 				184881FC1C59CF8D43AAD305 /* FileManagerTest.swift in Sources */,
+				184882F2A6DBBF7176E18A03 /* SaveImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
