@@ -21,6 +21,10 @@ class CompareImagesTest: XCTestCase {
 
 }
 
+let COLOR_THRESHOLD: Int = 40
+let DISTANCE: Int = 2
+
 func compareScreenshots(expect: CGImage, actual: CGImage) -> Bool { //todo return diff image
+    actual
     return true
 }

@@ -5,11 +5,16 @@
 import Foundation
 import XCTest
 
+extension CGImage {
+    public func saveToFile(name: String) {
+//        let outputImage = UIImage(cgImage: self, scale: image.scale, orientation: image.imageOrientation)
+        UIImage(cgImage: self).saveToFile(name: name)
+    }
+}
+
 extension CGContext {
     public func saveToFile(name: String) {
-        let outputCGImage: CGImage = self.makeImage()!
-//        let outputImage = UIImage(cgImage: outputCGImage, scale: image.scale, orientation: image.imageOrientation)
-        UIImage(cgImage: outputCGImage).saveToFile(name: name)
+        self.makeImage()!.saveToFile(name: name)
     }
 }
 
