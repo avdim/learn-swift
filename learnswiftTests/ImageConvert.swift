@@ -1,11 +1,11 @@
-//
-// Created by Dim on 22.06.2021.
-//
-
 import Foundation
 import XCTest
 
-extension CGImage {
+func toCGContext(cgImage:CGImage)->CGContext? {
+    cgImage.toCGContext()
+}
+
+private extension CGImage {
     func toCGContext() -> CGContext? {
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         let bytesPerPixel = 4

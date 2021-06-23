@@ -16,14 +16,13 @@ class EditImageTest: XCTestCase {
 func editPng() {
     let inputCGImage = getProjectDirImage(imagePath: "img.png")
 
-    let width = inputCGImage.width
-    let height = inputCGImage.height
-
-    let context = inputCGImage.toCGContext()!
+    let context = toCGContext(cgImage: inputCGImage)!
     guard let buffer = context.data else {
         print("unable to get context data")
         return
     }
+    let width = inputCGImage.width
+    let height = inputCGImage.height
     let pixelBuffer = buffer.bindMemory(to: RGBA32.self, capacity: width * height)
     for row in 0..<Int(height) {
         for column in 0..<Int(width) {
