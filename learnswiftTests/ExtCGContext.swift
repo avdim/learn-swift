@@ -1,11 +1,11 @@
 import Foundation
 import XCTest
 
-func cgContextToPixelWrapper(cgContext: CGContext) -> PixelBufferWrapper {
+func cgContextToPixelBufferWrapper(cgContext: CGContext) -> PixelBufferWrapper {
     return cgContext.toPixelBufferWrapper()
 }
 
-func saveToFile(cgContext: CGContext, name: String) {
+func cgContextSaveToFile(cgContext: CGContext, name: String) {
     cgContext.saveToFile(name: name)
 }
 
@@ -16,7 +16,7 @@ private extension CGContext {
         return PixelBufferWrapper(pixelBuffer: pixelBuffer, width: width, height: height)
     }
 
-    public func saveToFile(name: String) {
+    func saveToFile(name: String) {
         cgImageSaveToFile(cgImage: self.makeImage()!, name: name)
     }
 }

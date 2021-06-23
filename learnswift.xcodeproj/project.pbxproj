@@ -13,6 +13,7 @@
 		184882039C1CB8CA7447428B /* PixelBufferWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184887D960E816722FC4C0F3 /* PixelBufferWrapper.swift */; };
 		184883753298B9F777B73FFF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18488B3C575C44EE3178D7E7 /* Assets.xcassets */; };
 		184884339E24E0433E99A497 /* learnswiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1848853BE672CECF2A8FEB5B /* learnswiftTests.swift */; };
+		1848846080F60F82DD83D166 /* PixelWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184882BA902B3F6CF4DEA369 /* PixelWrapper.swift */; };
 		184885717508127F8D419E94 /* ExtCGContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18488C9A844AFBC45F137E37 /* ExtCGContext.swift */; };
 		184885B038DCC03D6F6D84BE /* EditImageTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184884CD0CD24DE0E91861B0 /* EditImageTest.swift */; };
 		1848887DAB2CF072FBDF69BB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1848838DEA50EF95737E9113 /* Preview Assets.xcassets */; };
@@ -43,6 +44,7 @@
 		184880FF5D268EDD7E16043B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		1848819F2F5B23452BFB1B90 /* learnswift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = learnswift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1848826B36D3825278E6A99A /* learnswiftApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = learnswiftApp.swift; sourceTree = "<group>"; };
+		184882BA902B3F6CF4DEA369 /* PixelWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelWrapper.swift; sourceTree = "<group>"; };
 		1848837A6951186B7D2EDC44 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1848838DEA50EF95737E9113 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		184883D592D9D3FF3E467258 /* FileManagerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManagerTest.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 				18488F3D9CA7022D9B95E167 /* ExtCGImage.swift */,
 				184887D960E816722FC4C0F3 /* PixelBufferWrapper.swift */,
 				18488C9A844AFBC45F137E37 /* ExtCGContext.swift */,
+				184882BA902B3F6CF4DEA369 /* PixelWrapper.swift */,
 			);
 			path = learnswiftTests;
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 				1848801E546FAA12EA7B9340 /* ExtCGImage.swift in Sources */,
 				184882039C1CB8CA7447428B /* PixelBufferWrapper.swift in Sources */,
 				184885717508127F8D419E94 /* ExtCGContext.swift in Sources */,
+				1848846080F60F82DD83D166 /* PixelWrapper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -15,8 +15,7 @@ class EditImageTest: XCTestCase {
 
 func editPng() {
     let inputCGImage = getProjectDirImage(imagePath: "img.png")
-    let context = cgImageToCGContext(cgImage: inputCGImage)
-    let pixelWrapper = cgContextToPixelWrapper(cgContext: context)
+    let pixelWrapper = PixelWrapper(cgImage: inputCGImage)
 
     for x in 0..<pixelWrapper.width {
         for y in 0..<pixelWrapper.height {
@@ -25,7 +24,7 @@ func editPng() {
             }
         }
     }
-    context.saveToFile(name: "changed-image.png")
+    pixelWrapper.saveToFile(name: "changed-image.png")
 }
 
 func fixGitHubActionsColorDifference2(image: UIImage) -> UIImage? {
