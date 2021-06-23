@@ -16,12 +16,11 @@ class EditImageTest: XCTestCase {
 func editPng() {
     let inputCGImage = getProjectDirImage(imagePath: "img.png")
     let pixelWrapper = PixelWrapper(cgImage: inputCGImage)
-
-    for x in 0..<pixelWrapper.width {
-        for y in 0..<pixelWrapper.height {
-            if pixelWrapper.getPixel(x: x, y: y) == .githubActionsSystemUiColorDiff {
-                pixelWrapper.setPixel(x: x, y: y, value: .white)
-            }
+    pixelWrapper.mapEachPixel { old in
+        if (old == .githubActionsSystemUiColorDiff) {
+            return RGBA32.red
+        } else {
+            return old
         }
     }
     pixelWrapper.saveToFile(name: "changed-image.png")
