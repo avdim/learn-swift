@@ -15,7 +15,7 @@ private extension CGImage {
         let bytesPerPixel = 4
         let bitsPerComponent = 8
         let bytesPerRow = bytesPerPixel * width
-        let bitmapInfo = RGBA32.bitmapInfo
+        let bitmapInfo = RGB.bitmapInfo
 
         let context: CGContext = CGContext(
                 data: nil,

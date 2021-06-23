@@ -18,11 +18,11 @@ class PixelWrapper {
         self.height = cgContext.height
     }
 
-    func getPixel(x: Int, y: Int) -> RGBA32 {
+    func getPixel(x: Int, y: Int) -> RGB {
         return pixelBufferWrapper.getPixel(x: x, y: y)
     }
 
-    func setPixel(x: Int, y: Int, value: RGBA32) {
+    func setPixel(x: Int, y: Int, value: RGB) {
         pixelBufferWrapper.setPixel(x: x, y: y, value: value)
     }
 
@@ -30,7 +30,7 @@ class PixelWrapper {
         cgContextSaveToFile(cgContext: cgContext, name: name)
     }
 
-    func mapEachPixel(lambda:(RGBA32)->RGBA32) {
+    func mapEachPixel(lambda:(RGB)->RGB) {
         for x in 0..<width {
             for y in 0..<height {
                 let newPixel = lambda(getPixel(x: x, y: y))

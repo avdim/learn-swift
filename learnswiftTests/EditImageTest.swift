@@ -18,7 +18,7 @@ func editPng() {
     let pixelWrapper = PixelWrapper(cgImage: inputCGImage)
     pixelWrapper.mapEachPixel { old in
         if (old == .githubActionsSystemUiColorDiff) {
-            return RGBA32.red
+            return RGB.red
         } else {
             return old
         }

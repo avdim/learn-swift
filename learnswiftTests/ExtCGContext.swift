@@ -12,7 +12,7 @@ func cgContextSaveToFile(cgContext: CGContext, name: String) {
 private extension CGContext {
     func toPixelBufferWrapper() -> PixelBufferWrapper {
         let buffer = self.data!
-        let pixelBuffer: UnsafeMutablePointer<RGBA32> = buffer.bindMemory(to: RGBA32.self, capacity: width * height)
+        let pixelBuffer: UnsafeMutablePointer<RGB> = buffer.bindMemory(to: RGB.self, capacity: width * height)
         return PixelBufferWrapper(pixelBuffer: pixelBuffer, width: width, height: height)
     }
 
