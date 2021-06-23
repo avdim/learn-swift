@@ -5,21 +5,12 @@
 import Foundation
 import XCTest
 
-extension CGImage {
-    public func saveToFile(name: String) {
-//        let outputImage = UIImage(cgImage: self, scale: image.scale, orientation: image.imageOrientation)
-        UIImage(cgImage: self).saveToFile(name: name)
-    }
+func uiImageSaveToFile(uiImage:UIImage, name:String) {
+    uiImage.saveToFile(name: name)
 }
 
-extension CGContext {
-    public func saveToFile(name: String) {
-        self.makeImage()!.saveToFile(name: name)
-    }
-}
-
-extension UIImage {
-    public func saveToFile(name: String) -> Bool {
+private extension UIImage {
+    func saveToFile(name: String) -> Bool {
         guard let data = /*self.jpegData(compressionQuality: 1) ?? */self.pngData() else {
             return false
         }

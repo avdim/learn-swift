@@ -15,20 +15,13 @@ class EditImageTest: XCTestCase {
 
 func editPng() {
     let inputCGImage = getProjectDirImage(imagePath: "img.png")
+    let context = cgImageToCGContext(cgImage: inputCGImage)
+    let pixelWrapper = cgContextToPixelWrapper(cgContext: context)
 
-    let context = toCGContext(cgImage: inputCGImage)!
-    guard let buffer = context.data else {
-        print("unable to get context data")
-        return
-    }
-    let width = inputCGImage.width
-    let height = inputCGImage.height
-    let pixelBuffer = buffer.bindMemory(to: RGBA32.self, capacity: width * height)
-    for row in 0..<Int(height) {
-        for column in 0..<Int(width) {
-            let offset = row * width + column
-            if pixelBuffer[offset] == .githubActionsSystemUiColorDiff {
-                pixelBuffer[offset] = .white
+    for x in 0..<pixelWrapper.width {
+        for y in 0..<pixelWrapper.height {
+            if pixelWrapper.getPixel(x: x, y: y) == .githubActionsSystemUiColorDiff {
+                pixelWrapper.setPixel(x: x, y: y, value: .white)
             }
         }
     }
