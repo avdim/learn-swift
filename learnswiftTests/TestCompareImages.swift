@@ -5,7 +5,7 @@
 import Foundation
 import XCTest
 
-class CompareImagesTest: XCTestCase {
+class TestCompareImages: XCTestCase {
 
     func testCompareSuccessImages() {
         let imageGH: CGImage = getProjectDirImage(imagePath: "compare/github/MainScreenUITests/testEmptyArrivalStationAlert.1.png")
@@ -24,13 +24,23 @@ class CompareImagesTest: XCTestCase {
 let COLOR_THRESHOLD: Int = 40
 let DISTANCE: Int = 2
 
-func compareScreenshots(expect: CGImage, actual: CGImage) -> Bool { //todo return diff image
+func compareScreenshots(expect: CGImage, actual: CGImage) -> Bool { //todo return diff image ->(success:Bool, diff:CGImage?)
     let expectPixels = PixelWrapper(cgImage: expect)
     let actualPixels = PixelWrapper(cgImage: actual)
     let diffPixels = PixelWrapper(cgImage: actual)
     diffPixels.mapEachPixel { rgb in
-        RGB(red: rgb.r / 3, green: rgb.g / 3, blue: rgb.b / 3)
+        RGB(rgb.r / 3, rgb.g / 3, rgb.b / 3)
     }
     diffPixels.saveToFile(name: "diff.png")
+
+    /**
+     fun Sequence<Pt>.filterByImgSize() =
+    filter { it.x >= 0 && it.x < width && it.y >= 0 && it.y < height }
+     */
+
+    func nearPixels(x:Int, y:Int, distance:Int)->Array<Int> {
+        return []
+    }
+
     return true
 }

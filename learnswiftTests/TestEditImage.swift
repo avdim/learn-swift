@@ -6,7 +6,7 @@ import Foundation
 import XCTest
 @testable import learnswift
 
-class EditImageTest: XCTestCase {
+class TestEditImage: XCTestCase {
 
     func testEditPng() {
         editPng()

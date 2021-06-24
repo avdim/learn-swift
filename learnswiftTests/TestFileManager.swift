@@ -5,7 +5,7 @@
 import Foundation
 import XCTest
 
-class FileManagerTest:XCTestCase {
+class TestFileManager:XCTestCase {
     func testFileManager() {
         print("xCodeProjectDir: \(xCodeProjectDir)")
 
