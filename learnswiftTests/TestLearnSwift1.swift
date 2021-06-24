@@ -181,6 +181,61 @@ class TestLearnSwift1: XCTestCase {
             var width = 0.0, height = 0.0
         }
         Size(width: 2.0, height: 2.0)
+        Size(height: 2.0)
+    }
+
+    func testPropertyInitializer() {
+//        class SomeClass {
+//            let someProperty: SomeType = {
+//                // create a default value for someProperty inside this closure
+//                // someValue must be of the same type as SomeType
+//                return someValue
+//            }()
+//        }
+        /**
+         Note that the closure’s end curly brace is followed by an empty pair of parentheses.
+         This tells Swift to execute the closure immediately.
+         If you omit these parentheses, you are trying to assign the closure itself to the property,
+         and not the return value of the closure.
+         **/
+        struct Chessboard {
+            let boardColors: [Bool] = {
+                var temporaryBoard: [Bool] = []
+                var isBlack = false
+                for i in 1...8 {
+                    for j in 1...8 {
+                        temporaryBoard.append(isBlack)
+                        isBlack = !isBlack
+                    }
+                    isBlack = !isBlack
+                }
+                return temporaryBoard
+            }()
+            func squareIsBlackAt(row: Int, column: Int) -> Bool {
+                return boardColors[(row * 8) + column]
+            }
+        }
+        let board = Chessboard()
+        print(board.squareIsBlackAt(row: 0, column: 1))
+        // Prints "true"
+        print(board.squareIsBlackAt(row: 7, column: 7))
+        // Prints "false"
+    }
+
+    func testOptionalChain() {
+        class Person {
+            var residence: Residence?
+        }
+        class Residence {
+            var numberOfRooms = 1
+        }
+        let john = Person()
+        john.residence = Residence()
+        if let roomCount = john.residence?.numberOfRooms {
+            print("John's residence has \(roomCount) room(s).")
+        } else {
+            print("Unable to retrieve the number of rooms.")
+        }
     }
 
 }
