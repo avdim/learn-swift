@@ -59,3 +59,5 @@ class TestLearnSwift1: XCTestCase {
 
 }
 
+// Kotlin and Swift comparsion
+// https://habr.com/ru/post/350746/
