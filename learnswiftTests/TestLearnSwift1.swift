@@ -128,6 +128,28 @@ class TestLearnSwift1: XCTestCase {
         // Added 536 steps
     }
 
+    func testSubscript1() {
+        struct TimesTable {
+            let multiplier: Int
+            subscript(index: Int) -> Int {
+                return multiplier * index
+            }
+        }
+        let threeTimesTable = TimesTable(multiplier: 3)
+        print("six times three is \(threeTimesTable[6])")
+        // Prints "six times three is 18"
+    }
+
+    func testSubscript2() {
+        class MatrixStub {
+            subscript(x: Int, y:Int) -> String {
+                return "element [\(x), \(y)]"
+            }
+        }
+        let matrix = MatrixStub()
+        print(matrix[1, 2])
+    }
+
 }
 
 // Kotlin and Swift comparsion
