@@ -20,3 +20,4 @@ private extension CGContext {
         cgImageSaveToFile(cgImage: self.makeImage()!, name: name)
     }
 }
+

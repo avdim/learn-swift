@@ -25,6 +25,12 @@ let COLOR_THRESHOLD: Int = 40
 let DISTANCE: Int = 2
 
 func compareScreenshots(expect: CGImage, actual: CGImage) -> Bool { //todo return diff image
-    actual
+    let expectPixels = PixelWrapper(cgImage: expect)
+    let actualPixels = PixelWrapper(cgImage: actual)
+    let diffPixels = PixelWrapper(cgImage: actual)
+    diffPixels.mapEachPixel { rgb in
+        RGB(red: rgb.r / 3, green: rgb.g / 3, blue: rgb.b / 3)
+    }
+    diffPixels.saveToFile(name: "diff.png")
     return true
 }
