@@ -146,8 +146,41 @@ class TestLearnSwift1: XCTestCase {
                 return "element [\(x), \(y)]"
             }
         }
-        let matrix = MatrixStub()
-        print(matrix[1, 2])
+        let matrixStub = MatrixStub()
+        print(matrixStub[1, 2])
+
+        struct Matrix {
+            let rows: Int, columns: Int
+            var grid: [Double]
+            init(rows: Int, columns: Int) {
+                self.rows = rows
+                self.columns = columns
+                grid = Array(repeating: 0.0, count: rows * columns)
+            }
+            func indexIsValid(row: Int, column: Int) -> Bool {
+                return row >= 0 && row < rows && column >= 0 && column < columns
+            }
+            subscript(row: Int, column: Int) -> Double {
+                get {
+                    assert(indexIsValid(row: row, column: column), "Index out of range")
+                    return grid[(row * columns) + column]
+                }
+                set {
+                    assert(indexIsValid(row: row, column: column), "Index out of range")
+                    grid[(row * columns) + column] = newValue
+                }
+            }
+        }
+        var matrix = Matrix(rows: 2, columns: 2)
+        matrix[0, 1] = 1.5
+//        let badIndex = matrix[2, 2]
+    }
+
+    func testStructInitializer() {
+        struct Size {
+            var width = 0.0, height = 0.0
+        }
+        Size(width: 2.0, height: 2.0)
     }
 
 }
