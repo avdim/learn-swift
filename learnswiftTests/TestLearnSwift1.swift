@@ -57,6 +57,77 @@ class TestLearnSwift1: XCTestCase {
         print("one is now \(one), and two is now \(two)")
     }
 
+    func testClosure1() {
+        let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
+        names.sorted(by: { (s1: String, s2: String) -> Bool in return s1 > s2 })
+        names.sorted { s1, s2 -> Bool in
+            return s1 > s2
+        }
+        names.sorted(by: { $0 > $1 })
+        names.sorted(by: >)
+
+    }
+
+    func testGetSetProperties() {
+        struct Point {
+            var x = 0.0, y = 0.0
+        }
+
+        struct Size {
+            var width = 0.0, height = 0.0
+        }
+
+        struct AlternativeRect {
+            var origin = Point()
+            var size = Size()
+            var center: Point {
+                get {
+                    let centerX = origin.x + (size.width / 2)
+                    let centerY = origin.y + (size.height / 2)
+                    return Point(x: centerX, y: centerY)
+                }
+                set {
+                    origin.x = newValue.x - (size.width / 2)
+                    origin.y = newValue.y - (size.height / 2)
+                }
+            }
+        }
+    }
+
+    func testStructReadOnlyPoperties() {
+        struct Cuboid {
+            var width = 0.0, height = 0.0, depth = 0.0
+            var volume: Double {
+                return width * height * depth
+            }
+        }
+    }
+
+    func testPropertyObserver() {
+        class StepCounter {
+            var totalSteps: Int = 0 {
+                willSet(newTotalSteps) {
+                    print("About to set totalSteps to \(newTotalSteps)")
+                }
+                didSet {
+                    if totalSteps > oldValue {
+                        print("Added \(totalSteps - oldValue) steps")
+                    }
+                }
+            }
+        }
+        let stepCounter = StepCounter()
+        stepCounter.totalSteps = 200
+        // About to set totalSteps to 200
+        // Added 200 steps
+        stepCounter.totalSteps = 360
+        // About to set totalSteps to 360
+        // Added 160 steps
+        stepCounter.totalSteps = 896
+        // About to set totalSteps to 896
+        // Added 536 steps
+    }
+
 }
 
 // Kotlin and Swift comparsion
