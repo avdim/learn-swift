@@ -332,6 +332,26 @@ class TestLearnSwift1: XCTestCase {
         doTestProtocolComposition()
     }
 
+    func testTypeConvertions() {
+        class Class1 {
+        }
+
+        let objects: [Any] = [123, "str", Class1()]
+        for object in objects {
+            if let str1 = object as? String {
+                print("object is String \(str1)")
+            } else if let anyObj = object as? AnyObject {
+                print("object is AnyObject \(anyObj)")
+            } else {
+                print("another")
+            }
+        }
+    }
+
+    func testCollectionExtension() {
+        doTestCollectionExtension()
+    }
+
     func test() {
 
     }
@@ -369,6 +389,7 @@ private protocol Named {
 private protocol Aged {
     var age: Int { get }
 }
+
 func doTestProtocolComposition() {
     struct Person: Named, Aged {
         var name: String
@@ -383,7 +404,28 @@ func doTestProtocolComposition() {
     wishHappyBirthday(to: birthdayPerson)
     // Prints "Happy birthday, Malcolm, you're 21!"
 }
+
 ////////////////////////////////////////////////////////////////////////////////////
+
+extension Collection where Element: Equatable {
+    func allEqual() -> Bool {
+        for element in self {
+            if element != self.first {
+                return false
+            }
+        }
+        return true
+    }
+}
+
+func doTestCollectionExtension() {
+    let equalNumbers = [100, 100, 100, 100, 100]
+    let differentNumbers = [100, 100, 200, 100, 200]
+    print(equalNumbers.allEqual())
+// Prints "true"
+    print(differentNumbers.allEqual())
+// Prints "false"
+}
 
 ////////////////////////////////////////////////////////////////////////////////////
 
