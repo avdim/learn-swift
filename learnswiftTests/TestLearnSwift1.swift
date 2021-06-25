@@ -231,11 +231,40 @@ class TestLearnSwift1: XCTestCase {
         }
         let john = Person()
         john.residence = Residence()
-        if let roomCount = john.residence?.numberOfRooms {
+        if let roomCount = john.residence?.numberOfRooms /*let anotherVar=...*/ {
             print("John's residence has \(roomCount) room(s).")
         } else {
             print("Unable to retrieve the number of rooms.")
         }
+        //If subscript john.residence?[0].name
+    }
+
+    func testArrayMutation() {
+        var ints = [1]
+        ints.append(2)
+    }
+
+    func testErrorHandling1() {
+        enum MyError: Error {
+            case Err1
+        }
+
+        func someThrowingFunction() throws -> Int {
+            throw MyError.Err1
+            throw fatalError("Ooops")// If throws fatal error - program stops immediately, without catching. А Unit тест зависает
+            return 1
+        }
+
+        let x = try? someThrowingFunction()
+
+        let y: Int?
+        do {
+            y = try someThrowingFunction()
+        } catch {
+            y = nil
+        }
+        print("x", x)
+        print("y", y)
     }
 
 }
