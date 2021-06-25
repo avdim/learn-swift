@@ -16,6 +16,7 @@
 		184882039C1CB8CA7447428B /* PixelBufferWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184887D960E816722FC4C0F3 /* PixelBufferWrapper.swift */; };
 		184882A0DAC941E0D4A6655D /* TestLearnSwift3Dsl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18488056EDA047F9A9D46CED /* TestLearnSwift3Dsl.swift */; };
 		184882AD42C8CF411DD93175 /* TestLearnSwift1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18488F4D68CC53E3E821AAF9 /* TestLearnSwift1.swift */; };
+		184883257BDD6AD186F33ADB /* TestLearnSwift6OpaqueTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1848817874C4674A7FFDEF30 /* TestLearnSwift6OpaqueTypes.swift */; };
 		184883753298B9F777B73FFF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18488B3C575C44EE3178D7E7 /* Assets.xcassets */; };
 		184884339E24E0433E99A497 /* learnswiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1848853BE672CECF2A8FEB5B /* learnswiftTests.swift */; };
 		1848846080F60F82DD83D166 /* PixelWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184882BA902B3F6CF4DEA369 /* PixelWrapper.swift */; };
@@ -50,6 +51,7 @@
 		18488056EDA047F9A9D46CED /* TestLearnSwift3Dsl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestLearnSwift3Dsl.swift; sourceTree = "<group>"; };
 		184880FF5D268EDD7E16043B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		1848812ED57C7DF66FDC9BF2 /* RGB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGB.swift; sourceTree = "<group>"; };
+		1848817874C4674A7FFDEF30 /* TestLearnSwift6OpaqueTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestLearnSwift6OpaqueTypes.swift; sourceTree = "<group>"; };
 		1848819F2F5B23452BFB1B90 /* learnswift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = learnswift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1848826B36D3825278E6A99A /* learnswiftApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = learnswiftApp.swift; sourceTree = "<group>"; };
 		184882BA902B3F6CF4DEA369 /* PixelWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelWrapper.swift; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 				184889C9291DCE184B8D0FCE /* TestLearnSwift4Generics.swift */,
 				18488056EDA047F9A9D46CED /* TestLearnSwift3Dsl.swift */,
 				18488A076EF791FBD051C8C4 /* TestLearnSwift5Generics.swift */,
+				1848817874C4674A7FFDEF30 /* TestLearnSwift6OpaqueTypes.swift */,
 			);
 			path = learnswiftTests;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 				18488C489FF27E514966815E /* TestLearnSwift4Generics.swift in Sources */,
 				184882A0DAC941E0D4A6655D /* TestLearnSwift3Dsl.swift in Sources */,
 				18488F684BF6A5FD3485E953 /* TestLearnSwift5Generics.swift in Sources */,
+				184883257BDD6AD186F33ADB /* TestLearnSwift6OpaqueTypes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
