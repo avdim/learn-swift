@@ -150,7 +150,7 @@ private func useCustomOperator() {
     original += vectorToAdd
 
     var toBeDoubled = Vector2D(x: 1.0, y: 4.0)
-//    let afterDoubling = +++toBeDoubled
+    let afterDoubling = +++toBeDoubled
 // toBeDoubled now has values of (2.0, 8.0)
 // afterDoubling also has values of (2.0, 8.0)
 }
@@ -168,11 +168,14 @@ extension Vector2D {
         (left.x == right.x) && (left.y == right.y)
     }
 
-//    static prefix func +++ (vector: inout Vector2D) -> Vector2D {
-//        vector += vector
-//        return vector
-//    }
+    static prefix func +++ (vector: inout Vector2D) -> Vector2D {
+        vector += vector
+        return vector
+    }
 }
+
+prefix operator +++
+prefix operator +-=/&?^!*
 
 /////////////////////////////////////////////////////////////////////////////
 
