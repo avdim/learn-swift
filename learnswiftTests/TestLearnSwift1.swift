@@ -352,6 +352,70 @@ class TestLearnSwift1: XCTestCase {
         doTestCollectionExtension()
     }
 
+    func testGeneric1() {
+        func swapTwoValues<T>(_ a: inout T, _ b: inout T) {
+            let temporaryA = a
+            a = b
+            b = temporaryA
+        }
+
+        var one = 1
+        var two = 2
+        swapTwoValues(&one, &two)
+        print("one:", one)
+        print("two:", two)
+
+        var h = "hello"
+        var w = "world"
+        swapTwoValues(&h, &w)
+        print("h:", h)
+        print("w:", w)
+    }
+
+    func testGeneric2() {
+        struct Stack<Element> {
+            var items: [Element] = []
+
+            mutating func push(_ item: Element) {
+                items.append(item)
+            }
+
+            mutating func pop() -> Element {
+                return items.removeLast()
+            }
+        }
+
+        var stackOfStrings = Stack<String>()
+        stackOfStrings.push("uno")
+        stackOfStrings.push("dos")
+        stackOfStrings.push("tres")
+        stackOfStrings.push("cuatro")
+        print(stackOfStrings)
+//        extension Stack {
+//            var topItem: Element? {
+//                return items.isEmpty ? nil : items[items.count - 1]
+    }
+
+    func testGeneric3TypeConstrains() {
+        func findIndex<T: Equatable>(of valueToFind: T, in array: [T]) -> Int? {
+            for (index, value) in array.enumerated() {
+                if value == valueToFind {
+                    return index
+                }
+            }
+            return nil
+        }
+
+        let doubleIndex = findIndex(of: 9.3, in: [3.14159, 0.1, 0.25])
+        // doubleIndex is an optional Int with no value, because 9.3 isn't in the array
+        let stringIndex = findIndex(of: "Andrea", in: ["Mike", "Malcolm", "Andrea"])
+        // stringIndex is an optional Int containing a value of 2
+    }
+
+    func testGenericWhereClauses() {
+
+    }
+
     func test() {
 
     }
@@ -427,6 +491,10 @@ func doTestCollectionExtension() {
 // Prints "false"
 }
 
+////////////////////////////////////////////////////////////////////////////////////
+fileprivate func funcWithFilePrivateAccess() {
+    //do nothing
+}
 ////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////////

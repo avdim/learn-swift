@@ -23,6 +23,7 @@
 		184888858CE442AB32E9070C /* learnswiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18488E86FE2D891EBF8751E8 /* learnswiftUITests.swift */; };
 		1848894E73EC49EA4EA9D50C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1848837A6951186B7D2EDC44 /* ContentView.swift */; };
 		184889ED3B9D3B313EB7F74B /* learnswiftApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1848826B36D3825278E6A99A /* learnswiftApp.swift */; };
+		18488C489FF27E514966815E /* TestLearnSwift3Generics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184889C9291DCE184B8D0FCE /* TestLearnSwift3Generics.swift */; };
 		18488FB0F85B98DD8FDEB0E0 /* TestCompareImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18488C9DEEC06DDAD84D7F28 /* TestCompareImages.swift */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +58,7 @@
 		184885F48F72FEF2F2D00C4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		184887D960E816722FC4C0F3 /* PixelBufferWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelBufferWrapper.swift; sourceTree = "<group>"; };
 		184888ED665B488CC1208B23 /* TestLearnSwift2Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestLearnSwift2Extensions.swift; sourceTree = "<group>"; };
+		184889C9291DCE184B8D0FCE /* TestLearnSwift3Generics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestLearnSwift3Generics.swift; sourceTree = "<group>"; };
 		18488A06CF1C07E708FD3D91 /* learnswiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = learnswiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		18488B3C575C44EE3178D7E7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		18488C9A844AFBC45F137E37 /* ExtCGContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtCGContext.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				184882CC149C43308CCE6DF5 /* TestEditImage.swift */,
 				18488F4D68CC53E3E821AAF9 /* TestLearnSwift1.swift */,
 				184888ED665B488CC1208B23 /* TestLearnSwift2Extensions.swift */,
+				184889C9291DCE184B8D0FCE /* TestLearnSwift3Generics.swift */,
 			);
 			path = learnswiftTests;
 			sourceTree = "<group>";
@@ -286,6 +289,7 @@
 				184880E672070637E1359E7C /* TestEditImage.swift in Sources */,
 				184882AD42C8CF411DD93175 /* TestLearnSwift1.swift in Sources */,
 				1848814D44108E74A1F7E71F /* TestLearnSwift2Extensions.swift in Sources */,
+				18488C489FF27E514966815E /* TestLearnSwift3Generics.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
