@@ -11,6 +11,7 @@ private protocol Container2 {
     var count: Int { get }
     subscript(i: Int) -> Item { get }
 }
+
 /**
  To conform to this version of Container, the container’s Item type has to conform to the Equatable protocol.
  */
@@ -23,6 +24,7 @@ private protocol SuffixableContainer: Container2 {
     associatedtype Suffix: SuffixableContainer where Suffix.Item == Item
     func suffix(_ size: Int) -> Suffix
 }
+
 /**
  In this protocol, Suffix is an associated type, like the Item type in the Container example above. Suffix has two constraints: It must conform to the SuffixableContainer protocol (the protocol currently being defined), and its Item type must be the same as the container’s Item type. The constraint on Item is a generic where clause, which is discussed in Associated Types with a Generic Where Clause below.
  */
@@ -33,11 +35,12 @@ private protocol SuffixableContainer: Container2 {
 extension Stack: SuffixableContainer {
     func suffix(_ size: Int) -> Stack {
         var result = Stack()
-        for index in (count-size)..<count {
+        for index in (count - size)..<count {
             result.append(self[index])
         }
         return result
     }
+
     // Inferred that Suffix is Stack.
 }
 
@@ -56,16 +59,17 @@ private func usageOfStack() {
 extension IntStack: SuffixableContainer {
     func suffix(_ size: Int) -> Stack<Int> {
         var result = Stack<Int>()
-        for index in (count-size)..<count {
+        for index in (count - size)..<count {
             result.append(self[index])
         }
         return result
     }
+
     // Inferred that Suffix is Stack<Int>.
 }
 
 //Такой же как в предыдущей главе, за исключение !!! <Element:Equatable> !!!
-private struct Stack<Element:Equatable>: Container2 {
+private struct Stack<Element: Equatable>: Container2 {
     // original Stack<Element> implementation
     var items: [Element] = []
 
