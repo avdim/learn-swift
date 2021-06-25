@@ -412,8 +412,18 @@ class TestLearnSwift1: XCTestCase {
         // stringIndex is an optional Int containing a value of 2
     }
 
-    func testGenericWhereClauses() {
+    func testOverflow() {
+        var potentialOverflow = Int16.max
+//        potentialOverflow += 1 // this causes an error
+        potentialOverflow = potentialOverflow &+ 1
+        print("potentialOverflow", potentialOverflow)
+//        Overflow addition (&+)
+//        Overflow subtraction (&-)
+//        Overflow multiplication (&*)
+    }
 
+    func testOrder() {
+        2 + ((3 % 4) * 5)
     }
 
     func test() {

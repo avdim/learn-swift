@@ -29,6 +29,7 @@ private func useDoubleExtensions() {
     let aMarathon = 42.km + 195.m
     print("A marathon is \(aMarathon) meters long")
 }
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 private struct Size {
     var width = 0.0, height = 0.0
@@ -50,22 +51,26 @@ private extension Rect {
         self.init(origin: Point(x: originX, y: originY), size: size)
     }
 }
+
 private func useInitExtension() {
-    let centerRect = Rect( // use Rect.init extension
+    let centerRect = Rect(// use Rect.init extension
             center: Point(x: 4.0, y: 4.0),
             size: Size(width: 3.0, height: 3.0)
     )
 }
+
 //////////////////////////////////////////////////////////////////////////////////////////
 private extension Int {
     mutating func square() {
         self = self * self
     }
 }
+
 private func useMutatingExtension() {
     var someInt = 3
     someInt.square() // someInt is now 9
 }
+
 ///////////////////////////////////////////////////////////////////////////
 private extension Int {
     subscript(digitIndex: Int) -> Int {
@@ -76,6 +81,7 @@ private extension Int {
         return (self / decimalBase) % 10
     }
 }
+
 private func useSubscriptExt() {
     746381295[0]
 // returns 5
@@ -86,11 +92,13 @@ private func useSubscriptExt() {
     746381295[8]
 // returns 7
 }
+
 //////////////////////////////////////////////////////////////////////////////////////////
 private extension Int {
     enum Kind {
         case negative, zero, positive
     }
+
     var kind: Kind {
         switch self {
         case 0:
@@ -102,7 +110,8 @@ private extension Int {
         }
     }
 }
-func useNestedTypeExt() {
+
+private func useNestedTypeExt() {
     func printIntegerKinds(_ numbers: [Int]) {
         for number in numbers {
             switch number.kind {
@@ -116,7 +125,55 @@ func useNestedTypeExt() {
         }
         print("")
     }
+
     printIntegerKinds([3, 19, -27, 0, -6, 0, 7])
     // Prints "+ + - 0 - 0 + "
 }
 
+/////////////////////////////////////////////////////////////////////////////
+private struct Vector2D {
+    var x = 0.0, y = 0.0
+}
+
+private extension Vector2D {
+    static func +(left: Vector2D, right: Vector2D) -> Vector2D {
+        return Vector2D(x: left.x + right.x, y: left.y + right.y)
+    }
+}
+
+private func useCustomOperator() {
+    Vector2D() + Vector2D()
+
+    Vector2D() + -Vector2D()
+    var original = Vector2D(x: 1.0, y: 2.0)
+    let vectorToAdd = Vector2D(x: 3.0, y: 4.0)
+    original += vectorToAdd
+
+    var toBeDoubled = Vector2D(x: 1.0, y: 4.0)
+//    let afterDoubling = +++toBeDoubled
+// toBeDoubled now has values of (2.0, 8.0)
+// afterDoubling also has values of (2.0, 8.0)
+}
+
+extension Vector2D {
+    static prefix func -(vector: Vector2D) -> Vector2D {
+        return Vector2D(x: -vector.x, y: -vector.y)
+    }
+
+    static func +=(left: inout Vector2D, right: Vector2D) {
+        left = left + right
+    }
+
+    static func ==(left: Vector2D, right: Vector2D) -> Bool {
+        (left.x == right.x) && (left.y == right.y)
+    }
+
+//    static prefix func +++ (vector: inout Vector2D) -> Vector2D {
+//        vector += vector
+//        return vector
+//    }
+}
+
+/////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
