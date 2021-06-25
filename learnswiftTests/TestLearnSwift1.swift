@@ -260,6 +260,7 @@ class TestLearnSwift1: XCTestCase {
         enum MyError: Error {
             case Err1
         }
+
         func someThrowingFunction(_ letsThrow: Bool = true) throws -> Int {
             if (letsThrow) {
                 throw MyError.Err1
@@ -297,10 +298,25 @@ class TestLearnSwift1: XCTestCase {
                 return nil
             }
         }
+
         guard let useLater = someNullableFunc(true) else {
             return
         }
         print("useLater", useLater)
+    }
+
+    func testLoop1() {
+        for counter in 0...10 where counter % 2 == 0 { //also 0..<10
+            print(counter)
+        }
+    }
+
+    func test() {
+
+    }
+
+    func test2() {
+
     }
 
 }

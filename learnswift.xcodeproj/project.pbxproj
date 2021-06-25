@@ -10,6 +10,7 @@
 		184880038926CB9E4F1B1D4E /* TestFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18488F2C33C7C16C56316E9A /* TestFileManager.swift */; };
 		1848801E546FAA12EA7B9340 /* ExtCGImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18488F3D9CA7022D9B95E167 /* ExtCGImage.swift */; };
 		184880E672070637E1359E7C /* TestEditImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184882CC149C43308CCE6DF5 /* TestEditImage.swift */; };
+		1848814D44108E74A1F7E71F /* TestLearnSwift2Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184888ED665B488CC1208B23 /* TestLearnSwift2Extensions.swift */; };
 		1848819DAA31A7CE4F75D2C2 /* RGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1848812ED57C7DF66FDC9BF2 /* RGB.swift */; };
 		184881FA8DA16F19F01E3C61 /* ExtUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18488F7DF379105233D6310A /* ExtUIImage.swift */; };
 		184882039C1CB8CA7447428B /* PixelBufferWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184887D960E816722FC4C0F3 /* PixelBufferWrapper.swift */; };
@@ -55,6 +56,7 @@
 		1848853BE672CECF2A8FEB5B /* learnswiftTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = learnswiftTests.swift; path = old/learnswiftTests.swift; sourceTree = "<group>"; };
 		184885F48F72FEF2F2D00C4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		184887D960E816722FC4C0F3 /* PixelBufferWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelBufferWrapper.swift; sourceTree = "<group>"; };
+		184888ED665B488CC1208B23 /* TestLearnSwift2Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestLearnSwift2Extensions.swift; sourceTree = "<group>"; };
 		18488A06CF1C07E708FD3D91 /* learnswiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = learnswiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		18488B3C575C44EE3178D7E7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		18488C9A844AFBC45F137E37 /* ExtCGContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtCGContext.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				18488F2C33C7C16C56316E9A /* TestFileManager.swift */,
 				184882CC149C43308CCE6DF5 /* TestEditImage.swift */,
 				18488F4D68CC53E3E821AAF9 /* TestLearnSwift1.swift */,
+				184888ED665B488CC1208B23 /* TestLearnSwift2Extensions.swift */,
 			);
 			path = learnswiftTests;
 			sourceTree = "<group>";
@@ -282,6 +285,7 @@
 				184880038926CB9E4F1B1D4E /* TestFileManager.swift in Sources */,
 				184880E672070637E1359E7C /* TestEditImage.swift in Sources */,
 				184882AD42C8CF411DD93175 /* TestLearnSwift1.swift in Sources */,
+				1848814D44108E74A1F7E71F /* TestLearnSwift2Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
