@@ -4,7 +4,7 @@ import XCTest
 /**
  Here’s an example of a protocol called Container, which declares an associated type called Item:
  */
-private protocol Container {
+private protocol Container1 {
     associatedtype Item
     mutating func append(_ item: Item)
     var count: Int { get }
@@ -28,7 +28,7 @@ To achieve this, the Container protocol declares an associated type called Item,
 Here’s a version of the nongeneric IntStack type from Generic Types above, adapted to conform to the Container protocol:
  */
 
-private struct IntStack: Container {
+private struct IntStack: Container1 {
     // original IntStack implementation
     var items: [Int] = []
 
@@ -65,7 +65,7 @@ Thanks to Swift’s type inference, you don’t actually need to declare a concr
 You can also make the generic Stack type conform to the Container protocol:
  */
 
-private struct Stack<Element>: Container {
+private struct Stack<Element>: Container1 {
     // original Stack<Element> implementation
     var items: [Element] = []
 
@@ -100,7 +100,7 @@ private struct Stack<Element>: Container {
 
 Swift’s Array type already provides an append(_:) method, a count property, and a subscript with an Int index to retrieve its elements. These three capabilities match the requirements of the Container protocol. This means that you can extend Array to conform to the Container protocol simply by declaring that Array adopts the protocol. You do this with an empty extension, as described in Declaring Protocol Adoption with an Extension:
  */
-extension Array: Container {
+extension Array: Container1 {
 }
 
 /**
@@ -119,7 +119,7 @@ The example below defines a generic function called allItemsMatch, which checks 
 The two containers to be checked don’t have to be the same type of container (although they can be), but they do have to hold the same type of items. This requirement is expressed through a combination of type constraints and a generic where clause:
  */
 
-private func allItemsMatch<C1: Container, C2: Container>
+private func allItemsMatch<C1: Container1, C2: Container1>
         (_ someContainer: C1, _ anotherContainer: C2) -> Bool
         where C1.Item == C2.Item, C1.Item: Equatable {
 
@@ -233,7 +233,7 @@ private func usage4() {
  You can use a generic where clause with extensions to a protocol. The example below extends the Container protocol from the previous examples to add a startsWith(_:) method.
  */
 
-extension Container where Item: Equatable {
+extension Container1 where Item: Equatable {
     func startsWith(_ item: Item) -> Bool {
         return count >= 1 && self[0] == item
     }
@@ -256,7 +256,7 @@ func usage5() {
  The generic where clause in the example above requires Item to conform to a protocol, but you can also write a generic where clauses that require Item to be a specific type. For example:
  */
 
-extension Container where Item == Double {
+extension Container1 where Item == Double {
     func average() -> Double {
         var sum = 0.0
         for index in 0..<count {
@@ -279,7 +279,7 @@ You can include multiple requirements in a generic where clause that’s part of
 /**
  You can write a generic where clause as part of a declaration that doesn’t have its own generic type constraints, when you’re already working in the context of generic types. For example, you can write a generic where clause on a subscript of a generic type or on a method in an extension to a generic type. The Container structure is generic, and the where clauses in the example below specify what type constraints have to be satisfied to make these new methods available on a container.
  */
-extension Container {
+extension Container1 {
     func average() -> Double where Item == Int {
         var sum = 0.0
         for index in 0..<count {
@@ -304,7 +304,7 @@ func usage7() {
 If you want to write this code without using contextual where clauses, you write two extensions, one for each generic where clause. The example above and the example below have the same behavior.
  */
 
-extension Container where Item == Int {
+extension Container1 where Item == Int {
     func average2() -> Double {
         var sum = 0.0
         for index in 0..<count {
@@ -313,7 +313,7 @@ extension Container where Item == Int {
         return sum / Double(count)
     }
 }
-extension Container where Item: Equatable {
+extension Container1 where Item: Equatable {
     func endsWith2(_ item: Item) -> Bool {
         return count >= 1 && self[count-1] == item
     }
@@ -327,7 +327,7 @@ extension Container where Item: Equatable {
 /**
  You can include a generic where clause on an associated type. For example, suppose you want to make a version of Container that includes an iterator, like what the Sequence protocol uses in the standard library. Here’s how you write that:
  */
-protocol Container {
+private protocol Container2 {
     associatedtype Item
     mutating func append(_ item: Item)
     var count: Int { get }
@@ -341,14 +341,14 @@ protocol Container {
 
 For a protocol that inherits from another protocol, you add a constraint to an inherited associated type by including the generic where clause in the protocol declaration. For example, the following code declares a ComparableContainer protocol that requires Item to conform to Comparable:
  */
-protocol ComparableContainer: Container where Item: Comparable { }
+private protocol ComparableContainer: Container2 where Item: Comparable { }
 
 //Generic Subscripts
 
 /**
  Subscripts can be generic, and they can include generic where clauses. You write the placeholder type name inside angle brackets after subscript, and you write a generic where clause right before the opening curly brace of the subscript’s body. For example:
  */
-extension Container {
+extension Container2 {
     subscript<Indices: Sequence>(indices: Indices) -> [Item]
     where Indices.Iterator.Element == Int {
         var result: [Item] = []

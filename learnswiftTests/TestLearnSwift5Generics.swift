@@ -5,7 +5,7 @@ import XCTest
 /**
  You can add type constraints to an associated type in a protocol to require that conforming types satisfy those constraints. For example, the following code defines a version of Container that requires the items in the container to be equatable.
  */
-private protocol Container2 {
+private protocol ContainerB {
     associatedtype Item: Equatable
     mutating func append(_ item: Item)
     var count: Int { get }
@@ -20,7 +20,7 @@ private protocol Container2 {
  A protocol can appear as part of its own requirements. For example, here’s a protocol that refines the Container protocol, adding the requirement of a suffix(_:) method. The suffix(_:) method returns a given number of elements from the end of the container, storing them in an instance of the Suffix type.
  */
 
-private protocol SuffixableContainer: Container2 {
+private protocol SuffixableContainer: ContainerB {
     associatedtype Suffix: SuffixableContainer where Suffix.Item == Item
     func suffix(_ size: Int) -> Suffix
 }
@@ -69,7 +69,7 @@ extension IntStack: SuffixableContainer {
 }
 
 //Такой же как в предыдущей главе, за исключение !!! <Element:Equatable> !!!
-private struct Stack<Element: Equatable>: Container2 {
+private struct Stack<Element: Equatable>: ContainerB {
     // original Stack<Element> implementation
     var items: [Element] = []
 
@@ -95,7 +95,7 @@ private struct Stack<Element: Equatable>: Container2 {
 }
 
 //Такой же как в предыдущей главе
-private struct IntStack: Container2 {
+private struct IntStack: ContainerB {
     // original IntStack implementation
     var items: [Int] = []
 

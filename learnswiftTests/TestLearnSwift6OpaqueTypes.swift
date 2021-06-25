@@ -87,9 +87,9 @@ private func usage() {
     /**
      You can think of an opaque type like being the reverse of a generic type. Generic types let the code that calls a function pick the type for that function’s parameters and return value in a way that’s abstracted away from the function implementation. For example, the function in the following code returns a type that depends on its caller:
      */
-    func max<T>(_ x: T, _ y: T) -> T where T: Comparable {
-        //some code
-    }
+//    func max<T>(_ x: T, _ y: T) -> T where T: Comparable {
+//        //some code
+//    }
 
     /**
      The code that calls max(_:_:) chooses the values for x and y, and the type of those values determines the concrete type of T. The calling code can use any type that conforms to the Comparable protocol. The code inside the function is written in a general way so it can handle whatever type the caller provides. The implementation of max(_:_:) uses only functionality that all Comparable types share.
@@ -233,12 +233,12 @@ private func usage() {
 }
 
 
-private protocol Container3 {
+private protocol ContainerC {
     associatedtype Item
     var count: Int { get }
     subscript(i: Int) -> Item { get }
 }
-extension Array: Container3 { }
+extension Array: ContainerC { }
 
 /**
  You can’t use Container as the return type of a function because that protocol has an associated type. You also can’t use it as constraint in a generic return type because there isn’t enough information outside the function body to infer what the generic type needs to be.
@@ -257,7 +257,7 @@ extension Array: Container3 { }
 /**
  Using the opaque type some Container as a return type expresses the desired API contract—the function returns a container, but declines to specify the container’s type:
  */
-private func makeOpaqueContainer<T>(item: T) -> some Container {
+private func makeOpaqueContainer<T>(item: T) -> some ContainerC {
     return [item]
 }
 private func usage2() {
