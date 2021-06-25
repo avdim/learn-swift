@@ -90,6 +90,7 @@ private struct Stack<Element:Equatable>: Container2 {
     }
 }
 
+//Такой же как в предыдущей главе
 private struct IntStack: Container2 {
     // original IntStack implementation
     var items: [Int] = []
