@@ -279,6 +279,13 @@ class TestLearnSwift1: XCTestCase {
         }
         print("x", x)
         print("y", y)
+
+        if let data = try? someThrowingFunction(false) {
+            print("use data+1: ", data + 1)
+        } else {
+            print("data not available inside else block")
+        }
+
         let z = try! someThrowingFunction(false)
         print("z", z)
     }
