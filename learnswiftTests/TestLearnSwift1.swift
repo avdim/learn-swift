@@ -116,6 +116,7 @@ class TestLearnSwift1: XCTestCase {
                 }
             }
         }
+
         let stepCounter = StepCounter()
         stepCounter.totalSteps = 200
         // About to set totalSteps to 200
@@ -135,6 +136,7 @@ class TestLearnSwift1: XCTestCase {
                 return multiplier * index
             }
         }
+
         let threeTimesTable = TimesTable(multiplier: 3)
         print("six times three is \(threeTimesTable[6])")
         // Prints "six times three is 18"
@@ -142,24 +144,28 @@ class TestLearnSwift1: XCTestCase {
 
     func testSubscript2() {
         class MatrixStub {
-            subscript(x: Int, y:Int) -> String {
+            subscript(x: Int, y: Int) -> String {
                 return "element [\(x), \(y)]"
             }
         }
+
         let matrixStub = MatrixStub()
         print(matrixStub[1, 2])
 
         struct Matrix {
             let rows: Int, columns: Int
             var grid: [Double]
+
             init(rows: Int, columns: Int) {
                 self.rows = rows
                 self.columns = columns
                 grid = Array(repeating: 0.0, count: rows * columns)
             }
+
             func indexIsValid(row: Int, column: Int) -> Bool {
                 return row >= 0 && row < rows && column >= 0 && column < columns
             }
+
             subscript(row: Int, column: Int) -> Double {
                 get {
                     assert(indexIsValid(row: row, column: column), "Index out of range")
@@ -171,6 +177,7 @@ class TestLearnSwift1: XCTestCase {
                 }
             }
         }
+
         var matrix = Matrix(rows: 2, columns: 2)
         matrix[0, 1] = 1.5
 //        let badIndex = matrix[2, 2]
@@ -180,6 +187,7 @@ class TestLearnSwift1: XCTestCase {
         struct Size {
             var width = 0.0, height = 0.0
         }
+
         Size(width: 2.0, height: 2.0)
         Size(height: 2.0)
     }
@@ -211,10 +219,12 @@ class TestLearnSwift1: XCTestCase {
                 }
                 return temporaryBoard
             }()
+
             func squareIsBlackAt(row: Int, column: Int) -> Bool {
                 return boardColors[(row * 8) + column]
             }
         }
+
         let board = Chessboard()
         print(board.squareIsBlackAt(row: 0, column: 1))
         // Prints "true"
@@ -226,9 +236,11 @@ class TestLearnSwift1: XCTestCase {
         class Person {
             var residence: Residence?
         }
+
         class Residence {
             var numberOfRooms = 1
         }
+
         let john = Person()
         john.residence = Residence()
         if let roomCount = john.residence?.numberOfRooms /*let anotherVar=...*/ {
@@ -249,9 +261,11 @@ class TestLearnSwift1: XCTestCase {
             case Err1
         }
 
-        func someThrowingFunction() throws -> Int {
-            throw MyError.Err1
-            throw fatalError("Ooops")// If throws fatal error - program stops immediately, without catching. А Unit тест зависает
+        func someThrowingFunction(_ letsThrow: Bool = true) throws -> Int {
+            if (letsThrow) {
+                throw MyError.Err1
+                throw fatalError("Ooops")// If throws fatal error - program stops immediately, without catching. А Unit тест зависает¬
+            }
             return 1
         }
 
@@ -265,6 +279,8 @@ class TestLearnSwift1: XCTestCase {
         }
         print("x", x)
         print("y", y)
+        let z = try! someThrowingFunction(false)
+        print("z", z)
     }
 
 }
