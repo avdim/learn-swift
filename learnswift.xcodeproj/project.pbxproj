@@ -14,6 +14,7 @@
 		1848819DAA31A7CE4F75D2C2 /* RGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1848812ED57C7DF66FDC9BF2 /* RGB.swift */; };
 		184881FA8DA16F19F01E3C61 /* ExtUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18488F7DF379105233D6310A /* ExtUIImage.swift */; };
 		184882039C1CB8CA7447428B /* PixelBufferWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184887D960E816722FC4C0F3 /* PixelBufferWrapper.swift */; };
+		184882A0DAC941E0D4A6655D /* TestLearnSwift3Dsl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18488056EDA047F9A9D46CED /* TestLearnSwift3Dsl.swift */; };
 		184882AD42C8CF411DD93175 /* TestLearnSwift1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18488F4D68CC53E3E821AAF9 /* TestLearnSwift1.swift */; };
 		184883753298B9F777B73FFF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18488B3C575C44EE3178D7E7 /* Assets.xcassets */; };
 		184884339E24E0433E99A497 /* learnswiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1848853BE672CECF2A8FEB5B /* learnswiftTests.swift */; };
@@ -23,7 +24,8 @@
 		184888858CE442AB32E9070C /* learnswiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18488E86FE2D891EBF8751E8 /* learnswiftUITests.swift */; };
 		1848894E73EC49EA4EA9D50C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1848837A6951186B7D2EDC44 /* ContentView.swift */; };
 		184889ED3B9D3B313EB7F74B /* learnswiftApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1848826B36D3825278E6A99A /* learnswiftApp.swift */; };
-		18488C489FF27E514966815E /* TestLearnSwift3Generics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184889C9291DCE184B8D0FCE /* TestLearnSwift3Generics.swift */; };
+		18488C489FF27E514966815E /* TestLearnSwift4Generics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184889C9291DCE184B8D0FCE /* TestLearnSwift4Generics.swift */; };
+		18488F684BF6A5FD3485E953 /* TestLearnSwift5Generics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18488A076EF791FBD051C8C4 /* TestLearnSwift5Generics.swift */; };
 		18488FB0F85B98DD8FDEB0E0 /* TestCompareImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18488C9DEEC06DDAD84D7F28 /* TestCompareImages.swift */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		18488056EDA047F9A9D46CED /* TestLearnSwift3Dsl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestLearnSwift3Dsl.swift; sourceTree = "<group>"; };
 		184880FF5D268EDD7E16043B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		1848812ED57C7DF66FDC9BF2 /* RGB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGB.swift; sourceTree = "<group>"; };
 		1848819F2F5B23452BFB1B90 /* learnswift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = learnswift.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,8 +61,9 @@
 		184885F48F72FEF2F2D00C4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		184887D960E816722FC4C0F3 /* PixelBufferWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelBufferWrapper.swift; sourceTree = "<group>"; };
 		184888ED665B488CC1208B23 /* TestLearnSwift2Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestLearnSwift2Extensions.swift; sourceTree = "<group>"; };
-		184889C9291DCE184B8D0FCE /* TestLearnSwift3Generics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestLearnSwift3Generics.swift; sourceTree = "<group>"; };
+		184889C9291DCE184B8D0FCE /* TestLearnSwift4Generics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestLearnSwift4Generics.swift; sourceTree = "<group>"; };
 		18488A06CF1C07E708FD3D91 /* learnswiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = learnswiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		18488A076EF791FBD051C8C4 /* TestLearnSwift5Generics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestLearnSwift5Generics.swift; sourceTree = "<group>"; };
 		18488B3C575C44EE3178D7E7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		18488C9A844AFBC45F137E37 /* ExtCGContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtCGContext.swift; sourceTree = "<group>"; };
 		18488C9DEEC06DDAD84D7F28 /* TestCompareImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCompareImages.swift; sourceTree = "<group>"; };
@@ -134,7 +138,9 @@
 				184882CC149C43308CCE6DF5 /* TestEditImage.swift */,
 				18488F4D68CC53E3E821AAF9 /* TestLearnSwift1.swift */,
 				184888ED665B488CC1208B23 /* TestLearnSwift2Extensions.swift */,
-				184889C9291DCE184B8D0FCE /* TestLearnSwift3Generics.swift */,
+				184889C9291DCE184B8D0FCE /* TestLearnSwift4Generics.swift */,
+				18488056EDA047F9A9D46CED /* TestLearnSwift3Dsl.swift */,
+				18488A076EF791FBD051C8C4 /* TestLearnSwift5Generics.swift */,
 			);
 			path = learnswiftTests;
 			sourceTree = "<group>";
@@ -289,7 +295,9 @@
 				184880E672070637E1359E7C /* TestEditImage.swift in Sources */,
 				184882AD42C8CF411DD93175 /* TestLearnSwift1.swift in Sources */,
 				1848814D44108E74A1F7E71F /* TestLearnSwift2Extensions.swift in Sources */,
-				18488C489FF27E514966815E /* TestLearnSwift3Generics.swift in Sources */,
+				18488C489FF27E514966815E /* TestLearnSwift4Generics.swift in Sources */,
+				184882A0DAC941E0D4A6655D /* TestLearnSwift3Dsl.swift in Sources */,
+				18488F684BF6A5FD3485E953 /* TestLearnSwift5Generics.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

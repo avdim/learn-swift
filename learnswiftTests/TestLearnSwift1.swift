@@ -426,6 +426,10 @@ class TestLearnSwift1: XCTestCase {
         2 + ((3 % 4) * 5)
     }
 
+    func testDsl() {
+
+    }
+
     func test() {
 
     }
