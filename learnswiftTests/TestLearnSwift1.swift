@@ -260,7 +260,6 @@ class TestLearnSwift1: XCTestCase {
         enum MyError: Error {
             case Err1
         }
-
         func someThrowingFunction(_ letsThrow: Bool = true) throws -> Int {
             if (letsThrow) {
                 throw MyError.Err1
@@ -270,7 +269,6 @@ class TestLearnSwift1: XCTestCase {
         }
 
         let x = try? someThrowingFunction()
-
         let y: Int?
         do {
             y = try someThrowingFunction()
@@ -279,7 +277,7 @@ class TestLearnSwift1: XCTestCase {
         }
         print("x", x)
         print("y", y)
-
+        //////////////////////////////////////////////////////
         if let data = try? someThrowingFunction(false) {
             print("use data+1: ", data + 1)
         } else {
@@ -288,6 +286,21 @@ class TestLearnSwift1: XCTestCase {
 
         let z = try! someThrowingFunction(false)
         print("z", z)
+        //////////////////////////////////////////////////////
+    }
+
+    func testGuard1() {
+        func someNullableFunc(_ success: Bool = true) -> String? {
+            if (success) {
+                return "value"
+            } else {
+                return nil
+            }
+        }
+        guard let useLater = someNullableFunc(true) else {
+            return
+        }
+        print("useLater", useLater)
     }
 
 }
