@@ -34,7 +34,7 @@ func compareTutuSnapshots(expect: CGImage, actual: CGImage) -> Bool { //todo ret
     diffPixels.saveToFile(name: "before.png")
 
     let width = min(expectPixels.width, actualPixels.width)
-    let height = min(expectPixels.height, actualPixels.height)
+    let height = Int(Double(min(expectPixels.height, actualPixels.height)) * 0.95)
 
     func filterByImageSize(_ arr: Array<Pt>) -> Array<Pt> {
         arr.filter { it in
@@ -62,7 +62,7 @@ func compareTutuSnapshots(expect: CGImage, actual: CGImage) -> Bool { //todo ret
     var booleanResult = true
     for x in 0..<width {
         for y in 0..<height {
-            if(x % 20 == 0 && y%20==0) {
+            if (x % 20 == 0 && y % 20 == 0) {
                 print(x, y)
             }
             let good = nearPixels(x, y, DISTANCE).any { p2 in
@@ -176,8 +176,12 @@ func comparePixel(_ expect: RGB, _ actual: RGB, _ colorThreshold: Int) -> Bool {
 }
 
 extension Int {
+    var absMask: Int {
+        return self >> 31 //0x1F = 31 // 0 если >=0, -1 если <0
+    }
     var abs1: Int {
-        return abs(self)
+//        return abs(self)
+        return (absMask ^ self) - absMask
     }
 }
 

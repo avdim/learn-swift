@@ -5,15 +5,15 @@ struct RGB: Equatable {
     private var color: UInt32
 
     var rInt: Int {
-        return Int(r)
+        return Int((color >> 24) & 0xFF)
     }
 
     var gInt: Int {
-        return Int(g)
+        return Int((color >> 16) & 0xFF)
     }
 
     var bInt: Int {
-        return Int(b)
+        return Int((color >> 8) & 0xFF)
     }
 
     var r: UInt8 {

@@ -38,9 +38,18 @@ class PixelWrapper {
             }
         }
     }
-
+    //todo cache
+    private var cache:[RGB]?
     subscript(x: Int, y:Int) -> RGB {
-        return getPixel(x: x, y: y)
+        if (cache == nil) {
+            cache = Array<RGB>(repeating: RGB.black, count: width * height)
+            for y2 in 0..<height {
+                for x2 in 0..<width {
+                    cache![x2 * height + y2] = getPixel(x: x2, y: y2)
+                }
+            }
+        }
+        return cache![x * height + y]
     }
 
 }
