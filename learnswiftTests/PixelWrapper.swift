@@ -7,23 +7,15 @@ import XCTest
 
 class PixelWrapper {
     let cgContext: CGContext
-    let pixelBufferWrapper: PixelBufferWrapper
+    let pixelBuffer: UnsafeMutablePointer<RGB>
     let width: Int
     let height: Int
 
     init(cgImage: CGImage) {
         self.cgContext = cgImageToCGContext(cgImage: cgImage)
-        self.pixelBufferWrapper = cgContextToPixelBufferWrapper(cgContext: cgContext)
+        self.pixelBuffer = cgContextToPixelBuffer(cgContext: cgContext)
         self.width = cgContext.width
         self.height = cgContext.height
-    }
-
-    func getPixel(x: Int, y: Int) -> RGB {
-        return pixelBufferWrapper.getPixel(x: x, y: y)
-    }
-
-    func setPixel(_ x: Int, _ y: Int, _ value: RGB) {
-        pixelBufferWrapper.setPixel(x: x, y: y, value: value)
     }
 
     func saveToFile(name: String) {
@@ -33,15 +25,18 @@ class PixelWrapper {
     func mapEachPixel(lambda: (RGB) -> RGB) {
         for x in 0..<width {
             for y in 0..<height {
-                let newPixel = lambda(getPixel(x: x, y: y))
-                setPixel(x, y, newPixel)
+                let newPixel = lambda(self[x, y])
+                self[x,y] = newPixel
             }
         }
     }
 
     subscript(x: Int, y: Int) -> RGB {
         get {
-            return getPixel(x: x, y: y)
+            return pixelBuffer[y * width + x]
+        }
+        set {
+            pixelBuffer[y * width + x] = newValue
         }
     }
 
