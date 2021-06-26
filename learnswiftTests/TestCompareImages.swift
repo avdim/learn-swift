@@ -41,30 +41,22 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
     let width = min(expectWrapper.width, actualWrapper.width)
     let height = Int(Double(min(expectWrapper.height, actualWrapper.height)) * 0.95)
 
-    func filterByImageSize(_ arr: Array<Pt>) -> Array<Pt> {
-        return arr
-        arr.filter { it in
-            it.x >= 0 && it.x < width && it.y >= 0 && it.y < height
+    func getNearPoints(_ x: Int, _ y: Int, _ distance: Int) -> Array<XY> {
+        return getZeroNearPoints(distance: distance).map { it in
+            XY(x: x + it.x, y: y + it.y)
         }
-    }
-
-    func calcNearPixels(_ x: Int, _ y: Int, _ distance: Int) -> Array<Pt> {
-        let mapped = getNearZone(distance: distance).map { it in
-            Pt(x: x + it.x, y: y + it.y)
-        }
-        return filterByImageSize(mapped)
     }
 
     var booleanResult = true
 
     for y in BRUSH_SIZE..<(height - BRUSH_SIZE) {
         for x in BRUSH_SIZE..<(width - BRUSH_SIZE) {
-            let nearPixels: Array<Pt> = calcNearPixels(x, y, MATCH_DISTANCE)
+            let nearPoints: Array<XY> = getNearPoints(x, y, MATCH_DISTANCE)
 
             func expectedCursor() -> Bool {
                 let cursorPixel = expect[x + y * width]
                 // Сравниваем expected курсор с соседними ближайшими пикселями actual картинки
-                return nearPixels.atLeast(count: 1) { it in
+                return nearPoints.atLeast(count: 1) { it in
                     return comparePixel(cursorPixel, actual[it.x + it.y * width])
                 }
             }
@@ -72,30 +64,29 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
             func actualCursor() -> Bool {
                 let cursorPixel = actual[x + y * width]
                 // Сравниваем actual курсор с соседними ближайшими пикселями expected картинки
-                return nearPixels.atLeast(count: 1) { it in
+                return nearPoints.atLeast(count: 1) { it in
                     return comparePixel(expect[it.x + it.y * width], cursorPixel)
                 }
             }
 
             func tryMoveCursor() -> Bool {
                 // Пробегаем курсором по этим точкам от предыдущей позиации:
-                let cursorPoints = filterByImageSize(
+                let cursorPoints =
                         [
-                            Pt(x: x + 1, y: y),
-                            Pt(x: x - 1, y: y),
-                            Pt(x: x, y: y + 1),
-                            Pt(x: x, y: y - 1),
-                            Pt(x: x + 1, y: y + 1), //Pt(x: x - 1,y:  y + 1), Pt(x: x + 1,y:  y - 1),
-                            Pt(x: x - 1, y: y - 1),
+                            XY(x: x + 1, y: y),
+                            XY(x: x - 1, y: y),
+                            XY(x: x, y: y + 1),
+                            XY(x: x, y: y - 1),
+                            XY(x: x + 1, y: y + 1), //Pt(x: x - 1,y:  y + 1), Pt(x: x + 1,y:  y - 1),
+                            XY(x: x - 1, y: y - 1),
                         ]
-                )
                 return cursorPoints.atLeast(count: 1) { cursor in
-                    let nearPixels: Array<Pt> = calcNearPixels(cursor.x, cursor.y, MATCH_DISTANCE - 1)
+                    let nearPoints: Array<XY> = getNearPoints(cursor.x, cursor.y, MATCH_DISTANCE - 1)
 
                     func expectedCursor2() -> Bool {
                         // Сравниваем expected курсор с соседними ближайшими пикселями actual картинки
                         let pixelAtCursor = expect[cursor.x + cursor.y * width]
-                        return nearPixels.atLeast(count: 1) { it in
+                        return nearPoints.atLeast(count: 1) { it in
                             return comparePixel(pixelAtCursor, actual[it.x + it.y * width])
                         }
                     }
@@ -103,7 +94,7 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
                     func actualCursor2() -> Bool {
                         // Сравниваем actual курсор с соседними ближайшими пикселями expected картинки
                         let pixelAtCursor = actual[cursor.x + cursor.y * width]
-                        return nearPixels.atLeast(count: 1) { it in
+                        return nearPoints.atLeast(count: 1) { it in
                             return comparePixel(expect[it.x + it.y * width], pixelAtCursor)
                         }
                     }
@@ -116,7 +107,6 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
 
             if (!good) {
                 booleanResult = false
-//                let brushSize = 6
                 for py in (y - BRUSH_SIZE)...(y + BRUSH_SIZE) {
                     for px in (x - BRUSH_SIZE)...(x + BRUSH_SIZE) {
                         diffWrapper.pixelBuffer[px + py * width] = RGB.red
@@ -127,7 +117,7 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
         }
     }
     //todo move up
-    diffWrapper.saveToFile(name: "after.png")
+    diffWrapper.saveToFile(name: "diff.png")
 
     return booleanResult
 //    return if (booleanResult) {
@@ -137,13 +127,9 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
 //    }
 }
 
-struct Pt {
+struct XY {
     let x: Int
     let y: Int
-
-    func size2() -> Int {
-        x * x + y * y
-    }
 }
 
 func comparePixel(_ expect: RGB, _ actual: RGB) -> Bool {
@@ -171,15 +157,15 @@ func comparePixel(_ expect: RGB, _ actual: RGB) -> Bool {
     return false
 }
 
-var nearZoneCache: [Int: Array<Pt>] = [:]
+var nearZoneCache: [Int: Array<XY>] = [:]
 
-func getNearZone(distance: Int) -> [Pt] {
+func getZeroNearPoints(distance: Int) -> [XY] {
     if (nearZoneCache[distance] == nil) {
-        var arr: Array<Pt> = []
+        var arr: Array<XY> = []
         for dx in (-distance)...distance {
             for dy in (-distance)...distance {
                 if (dx == dy || dx == -dy || dx == 0 || dy == 0) {
-                    arr.append(Pt(x: dx, y: dy))
+                    arr.append(XY(x: dx, y: dy))
                 }
             }
         }
