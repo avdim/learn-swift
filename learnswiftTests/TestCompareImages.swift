@@ -28,15 +28,8 @@ let BRUSH_SIZE = MATCH_DISTANCE + 1 //BRUSH_SIZE must me >= DISTANCE
 func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //todo return diff image ->(success:Bool, diff:CGImage?)
     let expectWrapper = PixelWrapper(cgImage: expectImg)
     let actualWrapper = PixelWrapper(cgImage: actualImg)
-    let diffWrapper = PixelWrapper(cgImage: actualImg)
     let expect = expectWrapper.pixelBuffer
     let actual = actualWrapper.pixelBuffer
-
-    //todo optimize
-    diffWrapper.mapEachPixel { rgb in
-        RGB(rgb.r / 3, rgb.g / 3, rgb.b / 3)
-    }
-//    diffWrapper.saveToFile(name: "before.png")
 
     let width = min(expectWrapper.width, actualWrapper.width)
     let height = Int(Double(min(expectWrapper.height, actualWrapper.height)) * 0.95)
@@ -127,16 +120,21 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
         }
     }
 
-    for pt in badPoints {
-        for y in (pt.y - BRUSH_SIZE)...(pt.y + BRUSH_SIZE) {
-            for x in (pt.x - BRUSH_SIZE)...(pt.x + BRUSH_SIZE) {
-                diffWrapper.pixelBuffer[x + y * width] = RGB.red
+    if (!badPoints.isEmpty) {
+        let diffWrapper = PixelWrapper(cgImage: actualImg)
+        diffWrapper.mapEachPixel { rgb in
+            RGB(rgb.r / 3, rgb.g / 3, rgb.b / 3)
+        }
+        for pt in badPoints {
+            for y in (pt.y - BRUSH_SIZE)...(pt.y + BRUSH_SIZE) {
+                for x in (pt.x - BRUSH_SIZE)...(pt.x + BRUSH_SIZE) {
+                    diffWrapper[x, y] = RGB.red
+                }
             }
         }
+        //todo move out of function
+        diffWrapper.saveToFile(name: "diff_\(UInt16.random(in: UInt16.min...UInt16.max)).png")
     }
-
-    //todo move up
-    diffWrapper.saveToFile(name: "diff_\(UInt16.random(in: UInt16.min...UInt16.max)).png")
 
     return badPoints.isEmpty
 //    return if (booleanResult) {
