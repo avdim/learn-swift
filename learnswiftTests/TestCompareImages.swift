@@ -47,79 +47,83 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
         }
     }
 
-    var booleanResult = true
+    func goodPoint(_ x:Int, _ y:Int) -> Bool {
+        let nearPoints: Array<XY> = getNearPoints(x, y, MATCH_DISTANCE)
 
+        func expectedCursor() -> Bool {
+            let cursorPixel = expect[x + y * width]
+            // Сравниваем expected курсор с соседними ближайшими пикселями actual картинки
+            return nearPoints.atLeast(count: 1) { it in
+                return comparePixel(cursorPixel, actual[it.x + it.y * width])
+            }
+        }
+
+        func actualCursor() -> Bool {
+            let cursorPixel = actual[x + y * width]
+            // Сравниваем actual курсор с соседними ближайшими пикселями expected картинки
+            return nearPoints.atLeast(count: 1) { it in
+                return comparePixel(expect[it.x + it.y * width], cursorPixel)
+            }
+        }
+
+        func tryMoveCursor() -> Bool {
+            // Пробегаем курсором по этим точкам от предыдущей позиации:
+            let cursorPoints =
+                    [
+                        XY(x: x + 1, y: y),
+                        XY(x: x - 1, y: y),
+                        XY(x: x, y: y + 1),
+                        XY(x: x, y: y - 1),
+                        XY(x: x + 1, y: y + 1), //Pt(x: x - 1,y:  y + 1), Pt(x: x + 1,y:  y - 1),
+                        XY(x: x - 1, y: y - 1),
+                    ]
+            return cursorPoints.atLeast(count: 1) { cursor in
+                let nearPoints: Array<XY> = getNearPoints(cursor.x, cursor.y, MATCH_DISTANCE - 1)
+
+                func expectedCursor2() -> Bool {
+                    // Сравниваем expected курсор с соседними ближайшими пикселями actual картинки
+                    let pixelAtCursor = expect[cursor.x + cursor.y * width]
+                    return nearPoints.atLeast(count: 1) { it in
+                        return comparePixel(pixelAtCursor, actual[it.x + it.y * width])
+                    }
+                }
+
+                func actualCursor2() -> Bool {
+                    // Сравниваем actual курсор с соседними ближайшими пикселями expected картинки
+                    let pixelAtCursor = actual[cursor.x + cursor.y * width]
+                    return nearPoints.atLeast(count: 1) { it in
+                        return comparePixel(expect[it.x + it.y * width], pixelAtCursor)
+                    }
+                }
+
+                return expectedCursor2() && actualCursor2()
+            }
+        }
+
+        return expectedCursor() && actualCursor() || tryMoveCursor()
+    }
+
+    var badPoints:Array<XY> = []
     for y in BRUSH_SIZE..<(height - BRUSH_SIZE) {
         for x in BRUSH_SIZE..<(width - BRUSH_SIZE) {
-            let nearPoints: Array<XY> = getNearPoints(x, y, MATCH_DISTANCE)
-
-            func expectedCursor() -> Bool {
-                let cursorPixel = expect[x + y * width]
-                // Сравниваем expected курсор с соседними ближайшими пикселями actual картинки
-                return nearPoints.atLeast(count: 1) { it in
-                    return comparePixel(cursorPixel, actual[it.x + it.y * width])
-                }
+            if (!goodPoint(x, y)) {
+                badPoints.append(XY(x: x,y: y))
             }
-
-            func actualCursor() -> Bool {
-                let cursorPixel = actual[x + y * width]
-                // Сравниваем actual курсор с соседними ближайшими пикселями expected картинки
-                return nearPoints.atLeast(count: 1) { it in
-                    return comparePixel(expect[it.x + it.y * width], cursorPixel)
-                }
-            }
-
-            func tryMoveCursor() -> Bool {
-                // Пробегаем курсором по этим точкам от предыдущей позиации:
-                let cursorPoints =
-                        [
-                            XY(x: x + 1, y: y),
-                            XY(x: x - 1, y: y),
-                            XY(x: x, y: y + 1),
-                            XY(x: x, y: y - 1),
-                            XY(x: x + 1, y: y + 1), //Pt(x: x - 1,y:  y + 1), Pt(x: x + 1,y:  y - 1),
-                            XY(x: x - 1, y: y - 1),
-                        ]
-                return cursorPoints.atLeast(count: 1) { cursor in
-                    let nearPoints: Array<XY> = getNearPoints(cursor.x, cursor.y, MATCH_DISTANCE - 1)
-
-                    func expectedCursor2() -> Bool {
-                        // Сравниваем expected курсор с соседними ближайшими пикселями actual картинки
-                        let pixelAtCursor = expect[cursor.x + cursor.y * width]
-                        return nearPoints.atLeast(count: 1) { it in
-                            return comparePixel(pixelAtCursor, actual[it.x + it.y * width])
-                        }
-                    }
-
-                    func actualCursor2() -> Bool {
-                        // Сравниваем actual курсор с соседними ближайшими пикселями expected картинки
-                        let pixelAtCursor = actual[cursor.x + cursor.y * width]
-                        return nearPoints.atLeast(count: 1) { it in
-                            return comparePixel(expect[it.x + it.y * width], pixelAtCursor)
-                        }
-                    }
-
-                    return expectedCursor2() && actualCursor2()
-                }
-            }
-
-            let good = expectedCursor() && actualCursor() || tryMoveCursor()
-
-            if (!good) {
-                booleanResult = false
-                for py in (y - BRUSH_SIZE)...(y + BRUSH_SIZE) {
-                    for px in (x - BRUSH_SIZE)...(x + BRUSH_SIZE) {
-                        diffWrapper.pixelBuffer[px + py * width] = RGB.red
-                    }
-                }
-            }
-
         }
     }
+
+    for pt in badPoints {
+        for y in (pt.y - BRUSH_SIZE)...(pt.y + BRUSH_SIZE) {
+            for x in (pt.x - BRUSH_SIZE)...(pt.x + BRUSH_SIZE) {
+                diffWrapper.pixelBuffer[x + y * width] = RGB.red
+            }
+        }
+    }
+
     //todo move up
     diffWrapper.saveToFile(name: "diff.png")
 
-    return booleanResult
+    return badPoints.isEmpty
 //    return if (booleanResult) {
 //        SnapshotResult.Success
 //    } else {
