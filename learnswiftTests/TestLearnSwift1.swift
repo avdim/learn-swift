@@ -432,22 +432,15 @@ class TestLearnSwift1: XCTestCase {
         }
         func diff2(_ a: UInt8, _ b: UInt8) -> UInt8 {
 //            a.distance(to: b)
-            return a.diff(b)
+            return a.diffAbs(b)
         }
-        let a = UInt8(0b0011)
-        let b = UInt8(0b0101)
-
-        // 0011    0101
-        // 0101    0011
-        //^0110   -  10
-        //|0111
-        //&0001
-        //-
-        XCTAssertEqual(diff1(a, b), diff2(a, b))
-        for _ in 0...1000 {
-            let a = UInt8.random(in: UInt8.min...UInt8.max)
-            let b = UInt8.random(in: UInt8.min...UInt8.max)
-            XCTAssertEqual(diff1(a, b), diff2(a, b))
+        for a in UInt8.min...UInt8.max {
+            for b in UInt8.min...UInt8.max {
+                let d1 = diff1(a, b)
+                let d2 = diff2(a, b)
+//            XCTAssertEqual(d1, d2)
+                XCTAssertTrue(abs(Int(d1) - Int(d2)) < 10)
+            }
         }
     }
 

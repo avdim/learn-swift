@@ -134,9 +134,9 @@ struct Pt {
 }
 
 func comparePixel(_ expect: RGB, _ actual: RGB) -> Bool {
-    let rAbs = expect.r.diff(actual.r)
-    let gAbs = expect.g.diff(actual.g)
-    let bAbs = expect.b.diff(actual.b)
+    let rAbs = expect.r.diffAbs(actual.r)
+    let gAbs = expect.g.diffAbs(actual.g)
+    let bAbs = expect.b.diffAbs(actual.b)
     let sum: UInt8 = rAbs / 3 + gAbs / 3 + bAbs / 3
     let condition: UInt8 = COLOR_THRESHOLD / 3
     if sum < condition {
