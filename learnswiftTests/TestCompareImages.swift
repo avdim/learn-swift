@@ -56,13 +56,13 @@ func compareTutuSnapshots(expect: CGImage, actual: CGImage) -> Bool { //todo ret
 
             func actualNearExpectedMatch() -> Bool {
                 return nearPixels.atLeast(count: 1) { it in
-                    comparePixel(&expectPixels[x, y], &actualPixels[it.x, it.y])
+                    comparePixel(expectPixels[x, y], actualPixels[it.x, it.y])
                 }
             }
 
             func expectedNearActualMatch() -> Bool {
                 return nearPixels.atLeast(count: 1) { it in
-                    comparePixel(&expectPixels[it.x, it.y], &actualPixels[x, y])
+                    comparePixel(expectPixels[it.x, it.y], actualPixels[x, y])
                 }
             }
 
@@ -83,13 +83,13 @@ func compareTutuSnapshots(expect: CGImage, actual: CGImage) -> Bool { //todo ret
 
                     func actualNearCursorMatch() -> Bool {
                         return nearCursor.atLeast(count: 1) { it in
-                            comparePixel(&expectPixels[cursor.x, cursor.y], &actualPixels[it.x, it.y])
+                            comparePixel(expectPixels[cursor.x, cursor.y], actualPixels[it.x, it.y])
                         }
                     }
 
                     func expectedNearCursorMatch() -> Bool {
                         return nearCursor.atLeast(count: 1) { it in
-                            comparePixel(&expectPixels[it.x, it.y], &actualPixels[cursor.x, cursor.y])
+                            comparePixel(expectPixels[it.x, it.y], actualPixels[cursor.x, cursor.y])
                         }
                     }
 
@@ -133,10 +133,10 @@ struct Pt {
     }
 }
 
-func comparePixel(_ expect: inout CacheRGB, _ actual: inout CacheRGB) -> Bool {
-    let rAbs = (expect.r - actual.r).abs1
-    let gAbs = (expect.g - actual.g).abs1
-    let bAbs = (expect.b - actual.b).abs1
+func comparePixel(_ expect: CacheRGB, _ actual: CacheRGB) -> Bool {
+    let rAbs = (expect.rInt - actual.rInt).abs1
+    let gAbs = (expect.gInt - actual.gInt).abs1
+    let bAbs = (expect.bInt - actual.bInt).abs1
     if (rAbs + gAbs + bAbs < COLOR_THRESHOLD) {
         return true
     }
