@@ -46,8 +46,9 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
     func comparePoints(_ expectedXY: XY, _ actualXY: XY) -> Bool {
         let expectedOffset = expectedXY.x + expectedXY.y * width
         let actualOffset = actualXY.x + actualXY.y * width
+        return comparePixel(expect[expectedOffset], actual[actualOffset])
+        //currently ignore cacheComparePoints
         let cacheKey = (expectedOffset << 32) + actualOffset
-
         let result: Bool
         if let value = cacheComparePoints[cacheKey] {
             result = value
