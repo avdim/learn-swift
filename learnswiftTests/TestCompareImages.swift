@@ -21,7 +21,7 @@ class TestCompareImages: XCTestCase {
 
 }
 
-let COLOR_THRESHOLD: Int = 40
+let COLOR_THRESHOLD: UInt8 = 40
 let DISTANCE: Int = 2
 
 func compareTutuSnapshots(expect: CGImage, actual: CGImage) -> Bool { //todo return diff image ->(success:Bool, diff:CGImage?)
@@ -134,19 +134,21 @@ struct Pt {
 }
 
 func comparePixel(_ expect: RGB, _ actual: RGB) -> Bool {
-    let rAbs = (expect.rInt - actual.rInt).abs1
-    let gAbs = (expect.gInt - actual.gInt).abs1
-    let bAbs = (expect.bInt - actual.bInt).abs1
-    if (rAbs + gAbs + bAbs < COLOR_THRESHOLD) {
+    let rAbs = expect.r.diff(actual.r)
+    let gAbs = expect.g.diff(actual.g)
+    let bAbs = expect.b.diff(actual.b)
+    let sum: UInt8 = rAbs / 3 + gAbs / 3 + bAbs / 3
+    let condition: UInt8 = COLOR_THRESHOLD / 3
+    if sum < condition {
         return true
     }
 
-    if (true) { // В будующем этот код можно удалить
+    if true { // В будующем этот код можно удалить
         // Workaround. На GitHub Actions системный диалог showAlert не правильно отображает цвета.
         // Этот код вносит дополнительную проверку.
         // Если смещение цветов (r g b), домноженное на коэффициенты workaround.r, g, b даёт сумму меньше чем threshold,
         // то считаем что пиксель валидный
-//    val workaround3 = WorkaroundColorsMultipliers(r = -0.40f, g = -0.31f, b = 1.24f)
+        // val workaround3 = WorkaroundColorsMultipliers(r = -0.40f, g = -0.31f, b = 1.24f)
         if (abs(-0.69 * Double(rAbs) - 0.89 * Double(gAbs) + 1.16 * Double(bAbs)) < 18.0) {
             return true
         }

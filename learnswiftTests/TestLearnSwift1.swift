@@ -426,8 +426,33 @@ class TestLearnSwift1: XCTestCase {
         2 + ((3 % 4) * 5)
     }
 
-    func testDsl() {
+    func testUInt() {
+        func diff1(_ a: UInt8, _ b: UInt8) -> UInt8 {
+            return UInt8(abs(Int(a) - Int(b)))
+        }
+        func diff2(_ a: UInt8, _ b: UInt8) -> UInt8 {
+//            a.distance(to: b)
+            return a.diff(b)
+        }
+        let a = UInt8(0b0011)
+        let b = UInt8(0b0101)
 
+        // 0011    0101
+        // 0101    0011
+        //^0110   -  10
+        //|0111
+        //&0001
+        //-
+        XCTAssertEqual(diff1(a, b), diff2(a, b))
+        for _ in 0...1000 {
+            let a = UInt8.random(in: UInt8.min...UInt8.max)
+            let b = UInt8.random(in: UInt8.min...UInt8.max)
+            XCTAssertEqual(diff1(a, b), diff2(a, b))
+        }
+    }
+
+    func testSumUInt() {
+        UInt8.max &+ UInt8(1)
     }
 
     func test() {
@@ -509,6 +534,7 @@ func doTestCollectionExtension() {
 fileprivate func funcWithFilePrivateAccess() {
     //do nothing
 }
+
 ////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////////

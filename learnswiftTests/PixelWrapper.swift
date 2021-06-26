@@ -10,7 +10,6 @@ class PixelWrapper {
     let pixelBufferWrapper: PixelBufferWrapper
     let width: Int
     let height: Int
-    private var cache: [CacheRGB]?
 
     init(cgImage: CGImage) {
         self.cgContext = cgImageToCGContext(cgImage: cgImage)
