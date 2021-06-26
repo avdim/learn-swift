@@ -1,27 +1,27 @@
 import Foundation
 import XCTest
 
-struct RGB/*: Equatable*/ {
-    private var argbColor: Int32
 
+//struct RGB/*: Equatable*/ {
+//    private var argbColor: Int32
+
+typealias RGB = Int32
+
+extension RGB {
     var r: Int32 {
-        return (argbColor >> 16) & 0xFF
+        return (self >> 16) & 0xFF
     }
 
     var g: Int32 {
-        return (argbColor >> 8) & 0xFF
+        return (self >> 8) & 0xFF
     }
 
     var b: Int32 {
-        return (argbColor >> 0) & 0xFF
+        return (self >> 0) & 0xFF
     }
 
     init(_ red: Int32, _ green: Int32, _ blue: Int32) {
-        argbColor = (red << 16) | (green << 8) | (blue << 0)
-    }
-
-    init(_ argb: Int32) {
-        argbColor = argb
+        self = (red << 16) | (green << 8) | (blue << 0)
     }
 
     static let red = RGB(0xFF0000)
@@ -30,8 +30,4 @@ struct RGB/*: Equatable*/ {
     static let white = RGB(0xFFffFF)
     static let black = RGB(0x000000)
     static let bitmapInfo = CGImageAlphaInfo.noneSkipFirst.rawValue | CGBitmapInfo.byteOrder32Little.rawValue
-
-//    static func ==(lhs: RGB, rhs: RGB) -> Bool {
-//        return lhs.argbColor == rhs.argbColor
-//    }
 }

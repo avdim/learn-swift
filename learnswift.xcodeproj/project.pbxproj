@@ -13,7 +13,6 @@
 		1848814D44108E74A1F7E71F /* TestLearnSwift2Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184888ED665B488CC1208B23 /* TestLearnSwift2Extensions.swift */; };
 		1848819DAA31A7CE4F75D2C2 /* RGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1848812ED57C7DF66FDC9BF2 /* RGB.swift */; };
 		184881FA8DA16F19F01E3C61 /* ExtUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18488F7DF379105233D6310A /* ExtUIImage.swift */; };
-		184882039C1CB8CA7447428B /* PixelBufferWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184887D960E816722FC4C0F3 /* PixelBufferWrapper.swift */; };
 		18488272C275132F385B68DC /* ExtArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1848867CF6E6928662577B3A /* ExtArray.swift */; };
 		184882A0DAC941E0D4A6655D /* TestLearnSwift3Dsl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18488056EDA047F9A9D46CED /* TestLearnSwift3Dsl.swift */; };
 		184882AD42C8CF411DD93175 /* TestLearnSwift1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18488F4D68CC53E3E821AAF9 /* TestLearnSwift1.swift */; };
@@ -64,7 +63,6 @@
 		1848853BE672CECF2A8FEB5B /* learnswiftTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = learnswiftTests.swift; path = old/learnswiftTests.swift; sourceTree = "<group>"; };
 		184885F48F72FEF2F2D00C4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		1848867CF6E6928662577B3A /* ExtArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtArray.swift; sourceTree = "<group>"; };
-		184887D960E816722FC4C0F3 /* PixelBufferWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelBufferWrapper.swift; sourceTree = "<group>"; };
 		18488825C12A1349CB9373A7 /* ExtInt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtInt.swift; sourceTree = "<group>"; };
 		184888ED665B488CC1208B23 /* TestLearnSwift2Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestLearnSwift2Extensions.swift; sourceTree = "<group>"; };
 		184889C9291DCE184B8D0FCE /* TestLearnSwift4Generics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestLearnSwift4Generics.swift; sourceTree = "<group>"; };
@@ -135,7 +133,6 @@
 				1848853BE672CECF2A8FEB5B /* learnswiftTests.swift */,
 				18488F7DF379105233D6310A /* ExtUIImage.swift */,
 				18488F3D9CA7022D9B95E167 /* ExtCGImage.swift */,
-				184887D960E816722FC4C0F3 /* PixelBufferWrapper.swift */,
 				18488C9A844AFBC45F137E37 /* ExtCGContext.swift */,
 				184882BA902B3F6CF4DEA369 /* PixelWrapper.swift */,
 				1848812ED57C7DF66FDC9BF2 /* RGB.swift */,
@@ -295,7 +292,6 @@
 				184884339E24E0433E99A497 /* learnswiftTests.swift in Sources */,
 				184881FA8DA16F19F01E3C61 /* ExtUIImage.swift in Sources */,
 				1848801E546FAA12EA7B9340 /* ExtCGImage.swift in Sources */,
-				184882039C1CB8CA7447428B /* PixelBufferWrapper.swift in Sources */,
 				184885717508127F8D419E94 /* ExtCGContext.swift in Sources */,
 				1848846080F60F82DD83D166 /* PixelWrapper.swift in Sources */,
 				1848819DAA31A7CE4F75D2C2 /* RGB.swift in Sources */,
