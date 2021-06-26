@@ -8,14 +8,24 @@ import XCTest
 class PixelWrapper {
     let cgContext: CGContext
     let pixelBufferWrapper: PixelBufferWrapper
-    let width:Int
-    let height:Int
+    let width: Int
+    let height: Int
+
+    private var cache: [CacheRGB]
 
     init(cgImage: CGImage) {
         self.cgContext = cgImageToCGContext(cgImage: cgImage)
         self.pixelBufferWrapper = cgContextToPixelBufferWrapper(cgContext: cgContext)
         self.width = cgContext.width
         self.height = cgContext.height
+
+        cache = Array<CacheRGB>(repeating: CacheRGB(rInt: 0, gInt: 0, bInt: 0), count: width * height)
+        for y2 in 0..<height {
+            for x2 in 0..<width {
+                let p = getPixel(x: x2, y: y2)
+                cache[x2 * height + y2] = CacheRGB(rInt: p.rInt, gInt: p.rInt, bInt: p.bInt)
+            }
+        }
     }
 
     func getPixel(x: Int, y: Int) -> RGB {
@@ -30,7 +40,7 @@ class PixelWrapper {
         cgContextSaveToFile(cgContext: cgContext, name: name)
     }
 
-    func mapEachPixel(lambda:(RGB)->RGB) {
+    func mapEachPixel(lambda: (RGB) -> RGB) {
         for x in 0..<width {
             for y in 0..<height {
                 let newPixel = lambda(getPixel(x: x, y: y))
@@ -38,18 +48,15 @@ class PixelWrapper {
             }
         }
     }
-    //todo cache
-    private var cache:[RGB]?
-    subscript(x: Int, y:Int) -> RGB {
-        if (cache == nil) {
-            cache = Array<RGB>(repeating: RGB.black, count: width * height)
-            for y2 in 0..<height {
-                for x2 in 0..<width {
-                    cache![x2 * height + y2] = getPixel(x: x2, y: y2)
-                }
-            }
-        }
-        return cache![x * height + y]
+
+    subscript(x: Int, y: Int) -> CacheRGB {
+        return cache[x * height + y]
     }
 
+}
+
+struct CacheRGB {
+    let rInt: Int
+    let gInt: Int
+    let bInt: Int
 }

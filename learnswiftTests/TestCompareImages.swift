@@ -150,7 +150,7 @@ extension Array {
     }
 }
 
-func comparePixel(_ expect: RGB, _ actual: RGB, _ colorThreshold: Int) -> Bool {
+func comparePixel(_ expect: CacheRGB, _ actual: CacheRGB, _ colorThreshold: Int) -> Bool {
     let rAbs = (expect.rInt - actual.rInt).abs1
     let gAbs = (expect.gInt - actual.gInt).abs1
     let bAbs = (expect.bInt - actual.bInt).abs1
