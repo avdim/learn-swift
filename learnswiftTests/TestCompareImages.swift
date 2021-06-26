@@ -22,7 +22,8 @@ class TestCompareImages: XCTestCase {
 }
 
 let COLOR_THRESHOLD: Int32 = 40
-let DISTANCE: Int = 2
+let MATCH_DISTANCE: Int = 2
+let BRUSH_SIZE = MATCH_DISTANCE + 1 //BRUSH_SIZE must me >= DISTANCE
 
 func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //todo return diff image ->(success:Bool, diff:CGImage?)
     let expectWrapper = PixelWrapper(cgImage: expectImg)
@@ -41,6 +42,7 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
     let height = Int(Double(min(expectWrapper.height, actualWrapper.height)) * 0.95)
 
     func filterByImageSize(_ arr: Array<Pt>) -> Array<Pt> {
+        return arr
         arr.filter { it in
             it.x >= 0 && it.x < width && it.y >= 0 && it.y < height
         }
@@ -55,9 +57,10 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
 
     var booleanResult = true
 
-    for y in 0..<height {
-        for x in 0..<width {
-            let nearPixels: Array<Pt> = calcNearPixels(x, y, DISTANCE)
+    for y in BRUSH_SIZE..<(height - BRUSH_SIZE) {
+        for x in BRUSH_SIZE..<(width - BRUSH_SIZE) {
+            let nearPixels: Array<Pt> = calcNearPixels(x, y, MATCH_DISTANCE)
+
             func expectedCursor() -> Bool {
                 let cursorPixel = expect[x + y * width]
                 // Сравниваем expected курсор с соседними ближайшими пикселями actual картинки
@@ -87,7 +90,7 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
                         ]
                 )
                 return cursorPoints.atLeast(count: 1) { cursor in
-                    let nearPixels: Array<Pt> = calcNearPixels(cursor.x, cursor.y, DISTANCE - 1)
+                    let nearPixels: Array<Pt> = calcNearPixels(cursor.x, cursor.y, MATCH_DISTANCE - 1)
 
                     func expectedCursor2() -> Bool {
                         // Сравниваем expected курсор с соседними ближайшими пикселями actual картинки
@@ -114,12 +117,9 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
             if (!good) {
                 booleanResult = false
 //                let brushSize = 6
-                let brushSize = 1
-                for px in (x - brushSize)...(x + brushSize) {
-                    for py in (y - brushSize)...(y + brushSize) {
-                        if (px > 0 && py > 0 && px < width && py < height) {
-                            diffWrapper[px, py] = RGB.red
-                        }
+                for py in (y - BRUSH_SIZE)...(y + BRUSH_SIZE) {
+                    for px in (x - BRUSH_SIZE)...(x + BRUSH_SIZE) {
+                        diffWrapper.pixelBuffer[px + py * width] = RGB.red
                     }
                 }
             }
