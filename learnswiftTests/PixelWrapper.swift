@@ -23,10 +23,10 @@ class PixelWrapper {
     }
 
     func mapEachPixel(lambda: (RGB) -> RGB) {
-        for x in 0..<width {
-            for y in 0..<height {
+        for y in 0..<height {
+            for x in 0..<width {
                 let newPixel = lambda(self[x, y])
-                self[x,y] = newPixel
+                self[x, y] = newPixel
             }
         }
     }

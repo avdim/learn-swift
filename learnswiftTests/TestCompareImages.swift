@@ -10,13 +10,13 @@ class TestCompareImages: XCTestCase {
     func testCompareSuccessImages() {
         let imageGH: CGImage = getProjectDirImage(imagePath: "compare/github/MainScreenUITests/testEmptyArrivalStationAlert.1.png")
         let imageLocal = getProjectDirImage(imagePath: "compare/local/MainScreenUITests/testEmptyArrivalStationAlert.1.png")
-        XCTAssertTrue(compareTutuSnapshots(expect: imageLocal, actual: imageGH))
+        XCTAssertTrue(compareTutuSnapshots(expectImg: imageLocal, actualImg: imageGH))
     }
 
     func testCompareFailedImages() {
         let imageGH = getProjectDirImage(imagePath: "compare/github/InfoUITests/testSchedulePastDateActionSheet.1.png")
         let imageLocal = getProjectDirImage(imagePath: "compare/local/InfoUITests/testSchedulePastDateActionSheet.1.png")
-        XCTAssertFalse(compareTutuSnapshots(expect: imageLocal, actual: imageGH))
+        XCTAssertFalse(compareTutuSnapshots(expectImg: imageLocal, actualImg: imageGH))
     }
 
 }
@@ -24,17 +24,21 @@ class TestCompareImages: XCTestCase {
 let COLOR_THRESHOLD: Int32 = 40
 let DISTANCE: Int = 2
 
-func compareTutuSnapshots(expect: CGImage, actual: CGImage) -> Bool { //todo return diff image ->(success:Bool, diff:CGImage?)
-    let expectPixels = PixelWrapper(cgImage: expect)
-    let actualPixels = PixelWrapper(cgImage: actual)
-    let diffPixels = PixelWrapper(cgImage: actual)
-    diffPixels.mapEachPixel { rgb in
+func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //todo return diff image ->(success:Bool, diff:CGImage?)
+    let expectWrapper = PixelWrapper(cgImage: expectImg)
+    let actualWrapper = PixelWrapper(cgImage: actualImg)
+    let diffWrapper = PixelWrapper(cgImage: actualImg)
+    let expect = expectWrapper.pixelBuffer
+    let actual = actualWrapper.pixelBuffer
+
+    //todo optimize
+    diffWrapper.mapEachPixel { rgb in
         RGB(rgb.r / 3, rgb.g / 3, rgb.b / 3)
     }
-    diffPixels.saveToFile(name: "before.png")
+//    diffWrapper.saveToFile(name: "before.png")
 
-    let width = min(expectPixels.width, actualPixels.width)
-    let height = Int(Double(min(expectPixels.height, actualPixels.height)) * 0.95)
+    let width = min(expectWrapper.width, actualWrapper.width)
+    let height = Int(Double(min(expectWrapper.height, actualWrapper.height)) * 0.95)
 
     func filterByImageSize(_ arr: Array<Pt>) -> Array<Pt> {
         arr.filter { it in
@@ -50,24 +54,28 @@ func compareTutuSnapshots(expect: CGImage, actual: CGImage) -> Bool { //todo ret
     }
 
     var booleanResult = true
+
     for y in 0..<height {
         for x in 0..<width {
             let nearPixels: Array<Pt> = calcNearPixels(x, y, DISTANCE)
-
-            func actualNearExpectedMatch() -> Bool {
+            func expectedCursor() -> Bool {
+                let cursorPixel = expect[x + y * width]
+                // Сравниваем expected курсор с соседними ближайшими пикселями actual картинки
                 return nearPixels.atLeast(count: 1) { it in
-                    comparePixel(expectPixels[x, y], actualPixels[it.x, it.y])
+                    return comparePixel(cursorPixel, actual[it.x + it.y * width])
                 }
             }
 
-            func expectedNearActualMatch() -> Bool {
+            func actualCursor() -> Bool {
+                let cursorPixel = actual[x + y * width]
+                // Сравниваем actual курсор с соседними ближайшими пикселями expected картинки
                 return nearPixels.atLeast(count: 1) { it in
-                    comparePixel(expectPixels[it.x, it.y], actualPixels[x, y])
+                    return comparePixel(expect[it.x + it.y * width], cursorPixel)
                 }
             }
 
-            func cursorPointsMatch() -> Bool {
-                // Пробегаем курсором по этим точкам:
+            func tryMoveCursor() -> Bool {
+                // Пробегаем курсором по этим точкам от предыдущей позиации:
                 let cursorPoints = filterByImageSize(
                         [
                             Pt(x: x + 1, y: y),
@@ -79,33 +87,38 @@ func compareTutuSnapshots(expect: CGImage, actual: CGImage) -> Bool { //todo ret
                         ]
                 )
                 return cursorPoints.atLeast(count: 1) { cursor in
-                    let nearCursor: Array<Pt> = calcNearPixels(cursor.x, cursor.y, DISTANCE - 1)
+                    let nearPixels: Array<Pt> = calcNearPixels(cursor.x, cursor.y, DISTANCE - 1)
 
-                    func actualNearCursorMatch() -> Bool {
-                        return nearCursor.atLeast(count: 1) { it in
-                            comparePixel(expectPixels[cursor.x, cursor.y], actualPixels[it.x, it.y])
+                    func expectedCursor2() -> Bool {
+                        // Сравниваем expected курсор с соседними ближайшими пикселями actual картинки
+                        let pixelAtCursor = expect[cursor.x + cursor.y * width]
+                        return nearPixels.atLeast(count: 1) { it in
+                            return comparePixel(pixelAtCursor, actual[it.x + it.y * width])
                         }
                     }
 
-                    func expectedNearCursorMatch() -> Bool {
-                        return nearCursor.atLeast(count: 1) { it in
-                            comparePixel(expectPixels[it.x, it.y], actualPixels[cursor.x, cursor.y])
+                    func actualCursor2() -> Bool {
+                        // Сравниваем actual курсор с соседними ближайшими пикселями expected картинки
+                        let pixelAtCursor = actual[cursor.x + cursor.y * width]
+                        return nearPixels.atLeast(count: 1) { it in
+                            return comparePixel(expect[it.x + it.y * width], pixelAtCursor)
                         }
                     }
 
-                    return actualNearCursorMatch() && expectedNearCursorMatch()
+                    return expectedCursor2() && actualCursor2()
                 }
             }
 
-            let good = actualNearExpectedMatch() && expectedNearActualMatch() || cursorPointsMatch()
+            let good = expectedCursor() && actualCursor() || tryMoveCursor()
 
             if (!good) {
                 booleanResult = false
-                let brushSize = 6
+//                let brushSize = 6
+                let brushSize = 1
                 for px in (x - brushSize)...(x + brushSize) {
                     for py in (y - brushSize)...(y + brushSize) {
                         if (px > 0 && py > 0 && px < width && py < height) {
-                            diffPixels[px, py] = RGB.red
+                            diffWrapper[px, py] = RGB.red
                         }
                     }
                 }
@@ -114,7 +127,7 @@ func compareTutuSnapshots(expect: CGImage, actual: CGImage) -> Bool { //todo ret
         }
     }
     //todo move up
-    diffPixels.saveToFile(name: "after.png")
+    diffWrapper.saveToFile(name: "after.png")
 
     return booleanResult
 //    return if (booleanResult) {
