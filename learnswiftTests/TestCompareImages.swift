@@ -47,7 +47,7 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
         }
     }
 
-    func goodPoint(_ x:Int, _ y:Int) -> Bool {
+    func goodPoint(_ x: Int, _ y: Int) -> Bool {
         let nearPoints: Array<XY> = getNearPoints(x, y, MATCH_DISTANCE)
 
         func expectedCursor() -> Bool {
@@ -103,11 +103,11 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
         return expectedCursor() && actualCursor() || tryMoveCursor()
     }
 
-    var badPoints:Array<XY> = []
+    var badPoints: Array<XY> = []
     for y in BRUSH_SIZE..<(height - BRUSH_SIZE) {
         for x in BRUSH_SIZE..<(width - BRUSH_SIZE) {
             if (!goodPoint(x, y)) {
-                badPoints.append(XY(x: x,y: y))
+                badPoints.append(XY(x: x, y: y))
             }
         }
     }
@@ -136,29 +136,44 @@ struct XY {
     let y: Int
 }
 
+var comparePixelsCache: [Int32: Bool] = [:]
+
 func comparePixel(_ expect: RGB, _ actual: RGB) -> Bool {
-    let rAbs = abs(expect.r - actual.r)
-    let gAbs = abs(expect.g - actual.g)
-    let bAbs = abs(expect.b - actual.b)
-    if rAbs + gAbs + bAbs < COLOR_THRESHOLD {
-        return true
-    }
-
-    if true { // В будующем этот код можно удалить
-        // Workaround. На GitHub Actions системный диалог showAlert не правильно отображает цвета.
-        // Этот код вносит дополнительную проверку.
-        // Если смещение цветов (r g b), домноженное на коэффициенты workaround.r, g, b даёт сумму меньше чем threshold,
-        // то считаем что пиксель валидный
-        // val workaround3 = WorkaroundColorsMultipliers(r = -0.40f, g = -0.31f, b = 1.24f)
-        if (abs(-0.69 * Double(rAbs) - 0.89 * Double(gAbs) + 1.16 * Double(bAbs)) < 18.0) {
+    //Это коммутативная функцния, порядок аргументов не имеет значения
+    func comparePixelsLogic(_ expect: RGB, _ actual: RGB) -> Bool {
+        let rAbs = abs(expect.r - actual.r)
+        let gAbs = abs(expect.g - actual.g)
+        let bAbs = abs(expect.b - actual.b)
+        if rAbs + gAbs + bAbs < COLOR_THRESHOLD {
             return true
         }
-        if (abs(-0.46 * Double(rAbs) - 0.47 * Double(gAbs) + 2.05 * Double(bAbs)) < 10.0) {
-            return true
+
+        if true { // В будующем этот код можно удалить
+            // Workaround. На GitHub Actions системный диалог showAlert не правильно отображает цвета.
+            // Этот код вносит дополнительную проверку.
+            // Если смещение цветов (r g b), домноженное на коэффициенты workaround.r, g, b даёт сумму меньше чем threshold,
+            // то считаем что пиксель валидный
+            // val workaround3 = WorkaroundColorsMultipliers(r = -0.40f, g = -0.31f, b = 1.24f)
+            if (abs(-0.69 * Double(rAbs) - 0.89 * Double(gAbs) + 1.16 * Double(bAbs)) < 18.0) {
+                return true
+            }
+            if (abs(-0.46 * Double(rAbs) - 0.47 * Double(gAbs) + 2.05 * Double(bAbs)) < 10.0) {
+                return true
+            }
         }
+        return false
     }
 
-    return false
+    //Поскольку сама функция коммутативна, то и хэш функция тоже коммутативна:
+    let hashKey: Int32 = expect ^ actual
+    let result: Bool
+    if let value = comparePixelsCache[hashKey] {
+        result = value
+    } else {
+        result = comparePixelsLogic(expect, actual)
+        comparePixelsCache[hashKey] = result
+    }
+    return result
 }
 
 var nearZoneCache: [Int: Array<XY>] = [:]
