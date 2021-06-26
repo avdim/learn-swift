@@ -40,31 +40,10 @@ class PixelWrapper {
         }
     }
 
-    subscript(x: Int, y: Int) -> CacheRGB {
+    subscript(x: Int, y: Int) -> RGB {
         get {
-            if (cache == nil) {
-                cache = Array<CacheRGB>(repeating: CacheRGB(rInt: 0, gInt: 0, bInt: 0), count: width * height)
-                for y2 in 0..<height {
-                    for x2 in 0..<width {
-                        let p = getPixel(x: x2, y: y2)
-                        cache![x2 * height + y2] = CacheRGB(rInt: p.rInt, gInt: p.gInt, bInt: p.bInt)
-                    }
-                }
-            }
-            return cache![x * height + y]
+            return getPixel(x: x, y: y)
         }
     }
 
-}
-
-struct CacheRGB {
-    let rInt: Int
-    let gInt: Int
-    let bInt: Int
-
-//    init(rInt: Int, gInt: Int, bInt: Int) {
-//        self.rInt = rInt
-//        self.gInt = gInt
-//        self.bInt = bInt
-//    }
 }
