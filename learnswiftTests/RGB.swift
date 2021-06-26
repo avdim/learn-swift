@@ -2,25 +2,25 @@ import Foundation
 import XCTest
 
 struct RGB/*: Equatable*/ {
-    private var argbColor: UInt32
+    private var argbColor: Int32
 
-    var r: UInt8 {
-        return UInt8((argbColor >> 16) & 0xFF)
+    var r: Int32 {
+        return (argbColor >> 16) & 0xFF
     }
 
-    var g: UInt8 {
-        return UInt8((argbColor >> 8) & 0xFF)
+    var g: Int32 {
+        return (argbColor >> 8) & 0xFF
     }
 
-    var b: UInt8 {
-        return UInt8((argbColor >> 0) & 0xFF)
+    var b: Int32 {
+        return (argbColor >> 0) & 0xFF
     }
 
-    init(_ red: UInt8, _ green: UInt8, _ blue: UInt8) {
-        argbColor = (UInt32(red) << 16) | (UInt32(green) << 8) | (UInt32(blue) << 0)
+    init(_ red: Int32, _ green: Int32, _ blue: Int32) {
+        argbColor = (red << 16) | (green << 8) | (blue << 0)
     }
 
-    init(_ argb: UInt32) {
+    init(_ argb: Int32) {
         argbColor = argb
     }
 

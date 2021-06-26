@@ -21,7 +21,7 @@ class TestCompareImages: XCTestCase {
 
 }
 
-let COLOR_THRESHOLD: UInt8 = 40
+let COLOR_THRESHOLD: Int32 = 40
 let DISTANCE: Int = 2
 
 func compareTutuSnapshots(expect: CGImage, actual: CGImage) -> Bool { //todo return diff image ->(success:Bool, diff:CGImage?)
@@ -134,12 +134,10 @@ struct Pt {
 }
 
 func comparePixel(_ expect: RGB, _ actual: RGB) -> Bool {
-    let rAbs = expect.r.diffAbs(actual.r)
-    let gAbs = expect.g.diffAbs(actual.g)
-    let bAbs = expect.b.diffAbs(actual.b)
-    let sum: UInt8 = rAbs / 3 + gAbs / 3 + bAbs / 3
-    let condition: UInt8 = COLOR_THRESHOLD / 3
-    if sum < condition {
+    let rAbs = abs(expect.r - actual.r)
+    let gAbs = abs(expect.g - actual.g)
+    let bAbs = abs(expect.b - actual.b)
+    if rAbs + gAbs + bAbs < COLOR_THRESHOLD {
         return true
     }
 
