@@ -4,18 +4,6 @@ import XCTest
 struct RGB: Equatable {
     private var color: UInt32
 
-    var rInt: Int {
-        return Int((color >> 24) & 0xFF)
-    }
-
-    var gInt: Int {
-        return Int((color >> 16) & 0xFF)
-    }
-
-    var bInt: Int {
-        return Int((color >> 8) & 0xFF)
-    }
-
     var r: UInt8 {
         return UInt8((color >> 24) & 0xFF)
     }
@@ -26,10 +14,6 @@ struct RGB: Equatable {
 
     var b: UInt8 {
         return UInt8((color >> 8) & 0xFF)
-    }
-
-    var a: UInt8 {
-        return UInt8((color >> 0) & 0xFF)
     }
 
     init(_ red: UInt8, _ green: UInt8, _ blue: UInt8) {
