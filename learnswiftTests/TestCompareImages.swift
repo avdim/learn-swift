@@ -41,28 +41,43 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
     let width = min(expectWrapper.width, actualWrapper.width)
     let height = Int(Double(min(expectWrapper.height, actualWrapper.height)) * 0.95)
 
-    func getNearPoints(_ x: Int, _ y: Int, _ distance: Int) -> Array<XY> {
+    var cacheComparePoints: [Int: Bool] = [:]
+
+    func comparePoints(_ expectedXY: XY, _ actualXY: XY) -> Bool {
+        let expectedOffset = expectedXY.x + expectedXY.y * width
+        let actualOffset = actualXY.x + actualXY.y * width
+        let cacheKey = (expectedOffset << 32) + actualOffset
+
+        let result: Bool
+        if let value = cacheComparePoints[cacheKey] {
+            result = value
+        } else {
+            result = comparePixel(expect[expectedOffset], actual[actualOffset])
+            cacheComparePoints[cacheKey] = result
+        }
+        return result
+    }
+
+    func getNearPoints(_ point: XY, _ distance: Int) -> Array<XY> {
         return getZeroNearPoints(distance: distance).map { it in
-            XY(x: x + it.x, y: y + it.y)
+            XY(x: point.x + it.x, y: point.y + it.y)
         }
     }
 
-    func goodPoint(_ x: Int, _ y: Int) -> Bool {
-        let nearPoints: Array<XY> = getNearPoints(x, y, MATCH_DISTANCE)
+    func isGoodPoint(_ cursor: XY) -> Bool {
+        let nearPoints: Array<XY> = getNearPoints(cursor, MATCH_DISTANCE)
 
         func expectedCursor() -> Bool {
-            let cursorPixel = expect[x + y * width]
             // Сравниваем expected курсор с соседними ближайшими пикселями actual картинки
             return nearPoints.atLeast(count: 1) { it in
-                return comparePixel(cursorPixel, actual[it.x + it.y * width])
+                return comparePoints(cursor, it)
             }
         }
 
         func actualCursor() -> Bool {
-            let cursorPixel = actual[x + y * width]
             // Сравниваем actual курсор с соседними ближайшими пикселями expected картинки
             return nearPoints.atLeast(count: 1) { it in
-                return comparePixel(expect[it.x + it.y * width], cursorPixel)
+                return comparePoints(it, cursor)
             }
         }
 
@@ -70,29 +85,27 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
             // Пробегаем курсором по этим точкам от предыдущей позиации:
             let cursorPoints =
                     [
-                        XY(x: x + 1, y: y),
-                        XY(x: x - 1, y: y),
-                        XY(x: x, y: y + 1),
-                        XY(x: x, y: y - 1),
-                        XY(x: x + 1, y: y + 1), //Pt(x: x - 1,y:  y + 1), Pt(x: x + 1,y:  y - 1),
-                        XY(x: x - 1, y: y - 1),
+                        XY(x: cursor.x + 1, y: cursor.y),
+                        XY(x: cursor.x - 1, y: cursor.y),
+                        XY(x: cursor.x, y: cursor.y + 1),
+                        XY(x: cursor.x, y: cursor.y - 1),
+                        XY(x: cursor.x + 1, y: cursor.y + 1), //Pt(x: x - 1,y:  y + 1), Pt(x: x + 1,y:  y - 1),
+                        XY(x: cursor.x - 1, y: cursor.y - 1),
                     ]
-            return cursorPoints.atLeast(count: 1) { cursor in
-                let nearPoints: Array<XY> = getNearPoints(cursor.x, cursor.y, MATCH_DISTANCE - 1)
+            return cursorPoints.atLeast(count: 1) { cursor2 in
+                let nearPoints: Array<XY> = getNearPoints(cursor2, MATCH_DISTANCE - 1)
 
                 func expectedCursor2() -> Bool {
                     // Сравниваем expected курсор с соседними ближайшими пикселями actual картинки
-                    let pixelAtCursor = expect[cursor.x + cursor.y * width]
                     return nearPoints.atLeast(count: 1) { it in
-                        return comparePixel(pixelAtCursor, actual[it.x + it.y * width])
+                        return comparePoints(cursor2, it)
                     }
                 }
 
                 func actualCursor2() -> Bool {
                     // Сравниваем actual курсор с соседними ближайшими пикселями expected картинки
-                    let pixelAtCursor = actual[cursor.x + cursor.y * width]
                     return nearPoints.atLeast(count: 1) { it in
-                        return comparePixel(expect[it.x + it.y * width], pixelAtCursor)
+                        return comparePoints(it, cursor2)
                     }
                 }
 
@@ -106,8 +119,9 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
     var badPoints: Array<XY> = []
     for y in BRUSH_SIZE..<(height - BRUSH_SIZE) {
         for x in BRUSH_SIZE..<(width - BRUSH_SIZE) {
-            if (!goodPoint(x, y)) {
-                badPoints.append(XY(x: x, y: y))
+            let xy = XY(x: x, y: y)
+            if (!isGoodPoint(xy)) {
+                badPoints.append(xy)
             }
         }
     }
@@ -121,7 +135,7 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
     }
 
     //todo move up
-    diffWrapper.saveToFile(name: "diff.png")
+    diffWrapper.saveToFile(name: "diff_\(UInt16.random(in: UInt16.min...UInt16.max)).png")
 
     return badPoints.isEmpty
 //    return if (booleanResult) {
@@ -165,13 +179,13 @@ func comparePixel(_ expect: RGB, _ actual: RGB) -> Bool {
     }
 
     //Поскольку сама функция коммутативна, то и хэш функция тоже коммутативна:
-    let hashKey: Int32 = expect ^ actual
+    let cacheKey: Int32 = expect ^ actual
     let result: Bool
-    if let value = comparePixelsCache[hashKey] {
+    if let value = comparePixelsCache[cacheKey] {
         result = value
     } else {
         result = comparePixelsLogic(expect, actual)
-        comparePixelsCache[hashKey] = result
+        comparePixelsCache[cacheKey] = result
     }
     return result
 }
