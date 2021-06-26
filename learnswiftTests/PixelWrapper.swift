@@ -22,7 +22,7 @@ class PixelWrapper {
         return pixelBufferWrapper.getPixel(x: x, y: y)
     }
 
-    func setPixel(x: Int, y: Int, value: RGB) {
+    func setPixel(_ x: Int, _ y: Int, _ value: RGB) {
         pixelBufferWrapper.setPixel(x: x, y: y, value: value)
     }
 
@@ -34,9 +34,13 @@ class PixelWrapper {
         for x in 0..<width {
             for y in 0..<height {
                 let newPixel = lambda(getPixel(x: x, y: y))
-                setPixel(x: x, y: y, value: newPixel)
+                setPixel(x, y, newPixel)
             }
         }
+    }
+
+    subscript(x: Int, y:Int) -> RGB {
+        return getPixel(x: x, y: y)
     }
 
 }
