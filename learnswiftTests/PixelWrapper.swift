@@ -50,7 +50,12 @@ class PixelWrapper {
     }
 
     subscript(x: Int, y: Int) -> CacheRGB {
-        return cache[x * height + y]
+        get {
+            return cache[x * height + y]
+        }
+        set {
+            //do nothing
+        }
     }
 
 }
@@ -59,4 +64,10 @@ struct CacheRGB {
     let rInt: Int
     let gInt: Int
     let bInt: Int
+
+//    init(rInt: Int, gInt: Int, bInt: Int) {
+//        self.rInt = rInt
+//        self.gInt = gInt
+//        self.bInt = bInt
+//    }
 }

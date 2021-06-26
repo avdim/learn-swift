@@ -66,10 +66,10 @@ func compareTutuSnapshots(expect: CGImage, actual: CGImage) -> Bool { //todo ret
                 print(x, y)
             }
             let good = nearPixels(x, y, DISTANCE).any { p2 in
-                comparePixel(expectPixels[x, y], actualPixels[p2.x, p2.y], COLOR_THRESHOLD)
+                comparePixel(&expectPixels[x, y], &actualPixels[p2.x, p2.y])
             } &&
                     nearPixels(x, y, DISTANCE).any { p2 in
-                        comparePixel(expectPixels[p2.x, p2.y], actualPixels[x, y], COLOR_THRESHOLD)
+                        comparePixel(&expectPixels[p2.x, p2.y], &actualPixels[x, y])
                     } ||
                     filterByImageSize(
                             [
@@ -82,10 +82,10 @@ func compareTutuSnapshots(expect: CGImage, actual: CGImage) -> Bool { //todo ret
                             ]
                     ).atLeast(count: 1) { p1 in
                         nearPixels(p1.x, p1.y, DISTANCE - 1).any { p2 in
-                            comparePixel(expectPixels[p1.x, p1.y], actualPixels[p2.x, p2.y], COLOR_THRESHOLD)
+                            comparePixel(&expectPixels[p1.x, p1.y], &actualPixels[p2.x, p2.y])
                         } &&
                                 nearPixels(p1.x, p1.y, DISTANCE - 1).any { p2 in
-                                    comparePixel(expectPixels[p2.x, p2.y], actualPixels[p1.x, p1.y], COLOR_THRESHOLD)
+                                    comparePixel(&expectPixels[p2.x, p2.y], &actualPixels[p1.x, p1.y])
                                 }
                     }
 
@@ -150,11 +150,11 @@ extension Array {
     }
 }
 
-func comparePixel(_ expect: CacheRGB, _ actual: CacheRGB, _ colorThreshold: Int) -> Bool {
+func comparePixel(_ expect: inout CacheRGB, _ actual: inout CacheRGB) -> Bool {
     let rAbs = (expect.rInt - actual.rInt).abs1
     let gAbs = (expect.gInt - actual.gInt).abs1
     let bAbs = (expect.bInt - actual.bInt).abs1
-    if (rAbs + gAbs + bAbs < colorThreshold) {
+    if (rAbs + gAbs + bAbs < COLOR_THRESHOLD) {
         return true
     }
 
