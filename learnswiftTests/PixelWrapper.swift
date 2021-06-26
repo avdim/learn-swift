@@ -19,11 +19,11 @@ class PixelWrapper {
         self.width = cgContext.width
         self.height = cgContext.height
 
-        cache = Array<CacheRGB>(repeating: CacheRGB(rInt: 0, gInt: 0, bInt: 0), count: width * height)
+        cache = Array<CacheRGB>(repeating: CacheRGB(r: 0, g: 0, b: 0), count: width * height)
         for y2 in 0..<height {
             for x2 in 0..<width {
                 let p = getPixel(x: x2, y: y2)
-                cache[x2 * height + y2] = CacheRGB(rInt: p.rInt, gInt: p.rInt, bInt: p.bInt)
+                cache[x2 * height + y2] = CacheRGB(r: p.rInt, g: p.gInt, b: p.bInt)
             }
         }
     }
@@ -61,9 +61,9 @@ class PixelWrapper {
 }
 
 struct CacheRGB {
-    let rInt: Int
-    let gInt: Int
-    let bInt: Int
+    let r: Int
+    let g: Int
+    let b: Int
 
 //    init(rInt: Int, gInt: Int, bInt: Int) {
 //        self.rInt = rInt

@@ -42,7 +42,7 @@ func compareTutuSnapshots(expect: CGImage, actual: CGImage) -> Bool { //todo ret
         }
     }
 
-    func nearPixels(_ x: Int, _ y: Int, _ distance: Int) -> Array<Pt> {
+    func calcNearPixels(_ x: Int, _ y: Int, _ distance: Int) -> Array<Pt> {
         var arr: Array<Pt> = []
         for dx in (-distance)...distance {
             for dy in (-distance)...distance {
@@ -65,29 +65,53 @@ func compareTutuSnapshots(expect: CGImage, actual: CGImage) -> Bool { //todo ret
             if (x % 20 == 0 && y % 20 == 0) {
                 print(x, y)
             }
-            let good = nearPixels(x, y, DISTANCE).any { p2 in
-                comparePixel(&expectPixels[x, y], &actualPixels[p2.x, p2.y])
-            } &&
-                    nearPixels(x, y, DISTANCE).any { p2 in
-                        comparePixel(&expectPixels[p2.x, p2.y], &actualPixels[x, y])
-                    } ||
-                    filterByImageSize(
-                            [
-                                Pt(x: x + 1, y: y),
-                                Pt(x: x - 1, y: y),
-                                Pt(x: x, y: y + 1),
-                                Pt(x: x, y: y - 1),
-                                Pt(x: x + 1, y: y + 1), //Pt(x: x - 1,y:  y + 1), Pt(x: x + 1,y:  y - 1),
-                                Pt(x: x - 1, y: y - 1),
-                            ]
-                    ).atLeast(count: 1) { p1 in
-                        nearPixels(p1.x, p1.y, DISTANCE - 1).any { p2 in
-                            comparePixel(&expectPixels[p1.x, p1.y], &actualPixels[p2.x, p2.y])
-                        } &&
-                                nearPixels(p1.x, p1.y, DISTANCE - 1).any { p2 in
-                                    comparePixel(&expectPixels[p2.x, p2.y], &actualPixels[p1.x, p1.y])
-                                }
+
+            let nearPixels: Array<Pt> = calcNearPixels(x, y, DISTANCE)
+
+            func actualNearExpectedMatch() -> Bool {
+                return nearPixels.atLeast(count: 1) { it in
+                    comparePixel(&expectPixels[x, y], &actualPixels[it.x, it.y])
+                }
+            }
+
+            func expectedNearActualMatch() -> Bool {
+                return nearPixels.atLeast(count: 1) { it in
+                    comparePixel(&expectPixels[it.x, it.y], &actualPixels[x, y])
+                }
+            }
+
+            func cursorPointsMatch() -> Bool {
+                // Пробегаем курсором по этим точкам:
+                let cursorPoints = filterByImageSize(
+                        [
+                            Pt(x: x + 1, y: y),
+                            Pt(x: x - 1, y: y),
+                            Pt(x: x, y: y + 1),
+                            Pt(x: x, y: y - 1),
+                            Pt(x: x + 1, y: y + 1), //Pt(x: x - 1,y:  y + 1), Pt(x: x + 1,y:  y - 1),
+                            Pt(x: x - 1, y: y - 1),
+                        ]
+                )
+                return cursorPoints.atLeast(count: 1) { cursor in
+                    let nearCursor: Array<Pt> = calcNearPixels(cursor.x, cursor.y, DISTANCE - 1)
+
+                    func actualNearCursorMatch() -> Bool {
+                        return nearCursor.atLeast(count: 1) { it in
+                            comparePixel(&expectPixels[cursor.x, cursor.y], &actualPixels[it.x, it.y])
+                        }
                     }
+
+                    func expectedNearCursorMatch() -> Bool {
+                        return nearCursor.atLeast(count: 1) { it in
+                            comparePixel(&expectPixels[it.x, it.y], &actualPixels[cursor.x, cursor.y])
+                        }
+                    }
+
+                    return actualNearCursorMatch() && expectedNearCursorMatch()
+                }
+            }
+
+            let good = actualNearExpectedMatch() && expectedNearActualMatch() || cursorPointsMatch()
 
             if (!good) {
                 booleanResult = false
@@ -123,37 +147,10 @@ struct Pt {
     }
 }
 
-extension Array {
-    /**
-     If any element match predicate
-     */
-    func any(predicate: (Element) -> Bool) -> Bool {
-        for e in self {
-            if (predicate(e)) {
-                return true
-            }
-        }
-        return false
-    }
-
-    func atLeast(count: Int = 1, predicate: (Element) -> Bool) -> Bool {
-        var match = 0
-        for element in self {
-            if (predicate(element)) {
-                match += 1
-                if (match >= count) {
-                    return true
-                }
-            }
-        }
-        return false
-    }
-}
-
 func comparePixel(_ expect: inout CacheRGB, _ actual: inout CacheRGB) -> Bool {
-    let rAbs = (expect.rInt - actual.rInt).abs1
-    let gAbs = (expect.gInt - actual.gInt).abs1
-    let bAbs = (expect.bInt - actual.bInt).abs1
+    let rAbs = (expect.r - actual.r).abs1
+    let gAbs = (expect.g - actual.g).abs1
+    let bAbs = (expect.b - actual.b).abs1
     if (rAbs + gAbs + bAbs < COLOR_THRESHOLD) {
         return true
     }
@@ -175,13 +172,5 @@ func comparePixel(_ expect: inout CacheRGB, _ actual: inout CacheRGB) -> Bool {
     return false
 }
 
-extension Int {
-    var absMask: Int {
-        return self >> 31 //0x1F = 31 // 0 если >=0, -1 если <0
-    }
-    var abs1: Int {
-//        return abs(self)
-        return (absMask ^ self) - absMask
-    }
-}
+
 
