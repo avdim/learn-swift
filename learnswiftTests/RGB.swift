@@ -17,7 +17,7 @@ struct RGB/*: Equatable*/ {
     }
 
     init(_ red: UInt8, _ green: UInt8, _ blue: UInt8) {
-        argbColor = 0xFF000000 | (UInt32(red) << 16) | (UInt32(green) << 8) | (UInt32(blue) << 0)
+        argbColor = (UInt32(red) << 16) | (UInt32(green) << 8) | (UInt32(blue) << 0)
     }
 
     init(_ argb: UInt32) {
