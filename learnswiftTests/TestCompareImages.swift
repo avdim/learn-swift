@@ -43,17 +43,7 @@ func compareTutuSnapshots(expect: CGImage, actual: CGImage) -> Bool { //todo ret
     }
 
     func calcNearPixels(_ x: Int, _ y: Int, _ distance: Int) -> Array<Pt> {
-        var arr: Array<Pt> = []
-        for dx in (-distance)...distance {
-            for dy in (-distance)...distance {
-                if (dx == dy || dx == -dy || dx == 0 || dy == 0) {
-                    arr.append(Pt(x: dx, y: dy))
-                }
-            }
-        }
-        let mapped = arr.sorted(by: { a, b in
-            a.size2() < b.size2()
-        }).map { it in
+        let mapped = getNearZone(distance: distance).map { it in
             Pt(x: x + it.x, y: y + it.y)
         }
         return filterByImageSize(mapped)
@@ -62,10 +52,6 @@ func compareTutuSnapshots(expect: CGImage, actual: CGImage) -> Bool { //todo ret
     var booleanResult = true
     for x in 0..<width {
         for y in 0..<height {
-            if (x % 20 == 0 && y % 20 == 0) {
-                print(x, y)
-            }
-
             let nearPixels: Array<Pt> = calcNearPixels(x, y, DISTANCE)
 
             func actualNearExpectedMatch() -> Bool {
@@ -172,5 +158,23 @@ func comparePixel(_ expect: inout CacheRGB, _ actual: inout CacheRGB) -> Bool {
     return false
 }
 
+var nearZoneCache: [Int: Array<Pt>] = [:]
+
+func getNearZone(distance: Int) -> [Pt] {
+    if (nearZoneCache[distance] == nil) {
+        var arr: Array<Pt> = []
+        for dx in (-distance)...distance {
+            for dy in (-distance)...distance {
+                if (dx == dy || dx == -dy || dx == 0 || dy == 0) {
+                    arr.append(Pt(x: dx, y: dy))
+                }
+            }
+        }
+        nearZoneCache[distance] = arr.sorted(by: { a, b in
+            a.size2() < b.size2()
+        })
+    }
+    return nearZoneCache[distance]!
+}
 
 

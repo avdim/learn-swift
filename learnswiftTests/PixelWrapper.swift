@@ -10,22 +10,13 @@ class PixelWrapper {
     let pixelBufferWrapper: PixelBufferWrapper
     let width: Int
     let height: Int
-
-    private var cache: [CacheRGB]
+    private var cache: [CacheRGB]?
 
     init(cgImage: CGImage) {
         self.cgContext = cgImageToCGContext(cgImage: cgImage)
         self.pixelBufferWrapper = cgContextToPixelBufferWrapper(cgContext: cgContext)
         self.width = cgContext.width
         self.height = cgContext.height
-
-        cache = Array<CacheRGB>(repeating: CacheRGB(r: 0, g: 0, b: 0), count: width * height)
-        for y2 in 0..<height {
-            for x2 in 0..<width {
-                let p = getPixel(x: x2, y: y2)
-                cache[x2 * height + y2] = CacheRGB(r: p.rInt, g: p.gInt, b: p.bInt)
-            }
-        }
     }
 
     func getPixel(x: Int, y: Int) -> RGB {
@@ -51,7 +42,16 @@ class PixelWrapper {
 
     subscript(x: Int, y: Int) -> CacheRGB {
         get {
-            return cache[x * height + y]
+            if (cache == nil) {
+                cache = Array<CacheRGB>(repeating: CacheRGB(r: 0, g: 0, b: 0), count: width * height)
+                for y2 in 0..<height {
+                    for x2 in 0..<width {
+                        let p = getPixel(x: x2, y: y2)
+                        cache![x2 * height + y2] = CacheRGB(r: p.rInt, g: p.gInt, b: p.bInt)
+                    }
+                }
+            }
+            return cache![x * height + y]
         }
         set {
             //do nothing
