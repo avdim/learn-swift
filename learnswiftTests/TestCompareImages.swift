@@ -28,8 +28,9 @@ class TestCompareImages: XCTestCase {
 }
 
 public let COLOR_THRESHOLD: Int32 = 40
-let MATCH_DISTANCE: Int = 2
-let BRUSH_SIZE = MATCH_DISTANCE + 1 //BRUSH_SIZE must me >= DISTANCE
+let MATCH_DISTANCE: Int = 7
+let MAX_BAD_POINTS_INSIDE_DISTANCE = 14
+let BRUSH_SIZE = 4
 
 func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //todo return diff image ->(success:Bool, diff:CGImage?)
     print("execute", #function)
@@ -143,34 +144,76 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
     }
 
     var badPointsSortedByY: Array<XY> = [] //Так как мы итерируем первый цикл по Y, то этот массив отсортирован по Y
-    for y in BRUSH_SIZE..<(height - BRUSH_SIZE) {
-        for x in BRUSH_SIZE..<(width - BRUSH_SIZE) {
+    for y in MATCH_DISTANCE..<(height - MATCH_DISTANCE) {
+        for x in MATCH_DISTANCE..<(width - MATCH_DISTANCE) {
             let xy = XY(x, y)
             var h = Helper(cursor: xy, expect: expect, actual: actual, width: width)
-            let isGoodPoint = h.expectedCursor && h.actualCursor || h.tryMoveCursor
+            let isGoodPoint = h.expectedCursor && h.actualCursor /*|| h.tryMoveCursor*/
             if (!isGoodPoint) {
                 badPointsSortedByY.append(xy)
             }
         }
     }
 
-    if (!badPointsSortedByY.isEmpty) {
+    var visitedPoints: Set<XY> = []
+    var failedPoints: Set<XY> = []
+    for current in badPointsSortedByY {
+        if (visitedPoints.contains(current)) {
+            continue
+        }
+
+        let startIndex:Int
+        if let it = badPointsSortedByY.binarySearchFirstIndex { p in
+            p.y >= current.y - MATCH_DISTANCE
+        } {
+            startIndex = it
+        } else {
+            startIndex = 0
+        }
+
+        let endIndex:Int
+        if let it = badPointsSortedByY.binarySearchLastIndex { p in
+            p.y <= current.y + MATCH_DISTANCE
+        } {
+            endIndex = it
+        } else {
+            endIndex = badPointsSortedByY.count - 1
+        }
+
+        var badPointsNear:Set<XY> = []
+        for i in startIndex...endIndex {
+            let p = badPointsSortedByY[i]
+            if (p != current && current.distance(p) <= MATCH_DISTANCE) {
+                badPointsNear.insert(p)
+            }
+        }
+        if (badPointsNear.count >= MAX_BAD_POINTS_INSIDE_DISTANCE) {
+            failedPoints.insert(current)
+            visitedPoints.insertAll(badPointsNear)
+        }
+    }
+
+    if (!failedPoints.isEmpty) {
         let diffWrapper = PixelWrapper(cgImage: actualImg)
         diffWrapper.mapEachPixel { rgb in
             RGB(rgb.r / 3, rgb.g / 3, rgb.b / 3)
         }
-        for pt in badPointsSortedByY {
+        for pt in failedPoints {
+            let brushSize = 0
             for y in (pt.y - BRUSH_SIZE)...(pt.y + BRUSH_SIZE) {
                 for x in (pt.x - BRUSH_SIZE)...(pt.x + BRUSH_SIZE) {
-                    diffWrapper[x, y] = RGB.red
+                    if x >= 0 && y >= 0 && x < width && y < height {
+                        diffWrapper[x, y] = RGB.red
+                    }
                 }
             }
         }
         //todo move out of function
         diffWrapper.saveToFile(name: "diff_\(UInt16.random(in: UInt16.min...UInt16.max)).png")
+        return false
+    } else {
+        return true
     }
-
-    return badPointsSortedByY.isEmpty
 //    return if (booleanResult) {
 //        SnapshotResult.Success
 //    } else {
@@ -178,13 +221,17 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
 //    }
 }
 
-public struct XY {
+public struct XY: Hashable {
     public let x: Int
     public let y: Int
 
     public init(_ x: Int, _ y: Int) {
         self.x = x
         self.y = y
+    }
+
+    func distance(_ other: XY) -> Int {
+        max(abs(x - other.x), abs(y - other.y))
     }
 }
 
