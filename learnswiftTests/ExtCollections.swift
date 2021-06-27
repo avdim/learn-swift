@@ -31,3 +31,10 @@ extension Array {
     }
 }
 
+extension Set {
+    mutating func insertAll(_ other: Set<Element>) {
+        for o in other {
+            self.insert(o)
+        }
+    }
+}
