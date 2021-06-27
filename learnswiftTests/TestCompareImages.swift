@@ -111,7 +111,17 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
                         XY(cursor.x - 1, cursor.y - 1),
                     ]
             return cursorPoints.atLeast(count: 1) { cursor2 in
-                let nearPoints: Array<XY> = getNearPoints(cursor2, MATCH_DISTANCE - 1)
+                let nearPoints: Array<XY> = [
+                    XY(cursor2.x, cursor2.y),
+                    XY(cursor2.x + 1, cursor2.y),
+                    XY(cursor2.x - 1, cursor2.y),
+                    XY(cursor2.x, cursor2.y + 1),
+                    XY(cursor2.x + 1, cursor2.y + 1),
+                    XY(cursor2.x - 1, cursor2.y + 1),
+                    XY(cursor2.x, cursor2.y - 1),
+                    XY(cursor2.x + 1, cursor2.y - 1),
+                    XY(cursor2.x - 1, cursor2.y - 1),
+                ]
 
                 func expectedCursor2() -> Bool {
                     // Сравниваем expected курсор с соседними ближайшими пикселями actual картинки
@@ -132,24 +142,24 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
         }()
     }
 
-    var badPoints: Array<XY> = []
+    var badPointsSortedByY: Array<XY> = [] //Так как мы итерируем первый цикл по Y, то этот массив отсортирован по Y
     for y in BRUSH_SIZE..<(height - BRUSH_SIZE) {
         for x in BRUSH_SIZE..<(width - BRUSH_SIZE) {
             let xy = XY(x, y)
             var h = Helper(cursor: xy, expect: expect, actual: actual, width: width)
             let isGoodPoint = h.expectedCursor && h.actualCursor || h.tryMoveCursor
             if (!isGoodPoint) {
-                badPoints.append(xy)
+                badPointsSortedByY.append(xy)
             }
         }
     }
 
-    if (!badPoints.isEmpty) {
+    if (!badPointsSortedByY.isEmpty) {
         let diffWrapper = PixelWrapper(cgImage: actualImg)
         diffWrapper.mapEachPixel { rgb in
             RGB(rgb.r / 3, rgb.g / 3, rgb.b / 3)
         }
-        for pt in badPoints {
+        for pt in badPointsSortedByY {
             for y in (pt.y - BRUSH_SIZE)...(pt.y + BRUSH_SIZE) {
                 for x in (pt.x - BRUSH_SIZE)...(pt.x + BRUSH_SIZE) {
                     diffWrapper[x, y] = RGB.red
@@ -160,7 +170,7 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
         diffWrapper.saveToFile(name: "diff_\(UInt16.random(in: UInt16.min...UInt16.max)).png")
     }
 
-    return badPoints.isEmpty
+    return badPointsSortedByY.isEmpty
 //    return if (booleanResult) {
 //        SnapshotResult.Success
 //    } else {
@@ -231,9 +241,9 @@ public var nearZoneCache: [Int: Array<XY>] = [:]
     var arr: Array<XY> = []
     for dx in (-distance)...distance {
         for dy in (-distance)...distance {
-//            if (dx == dy || dx == -dy || dx == 0 || dy == 0) {
+            if (dx == dy || dx == -dy || dx == 0 || dy == 0) {
                 arr.append(XY(dx, dy))
-//            }
+            }
         }
     }
     return arr.sorted(by: { a, b in

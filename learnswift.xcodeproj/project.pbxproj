@@ -26,6 +26,7 @@
 		184888858CE442AB32E9070C /* learnswiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18488E86FE2D891EBF8751E8 /* learnswiftUITests.swift */; };
 		1848894E73EC49EA4EA9D50C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1848837A6951186B7D2EDC44 /* ContentView.swift */; };
 		184889ED3B9D3B313EB7F74B /* learnswiftApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1848826B36D3825278E6A99A /* learnswiftApp.swift */; };
+		18488AC55387A84129BCD3B2 /* BinarySearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184886CE60794BF4685E9337 /* BinarySearch.swift */; };
 		18488C185B3EDC0911025CC5 /* TestLearnSwift7.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18488E2161FAFF98F78AC984 /* TestLearnSwift7.swift */; };
 		18488C489FF27E514966815E /* TestLearnSwift4Generics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184889C9291DCE184B8D0FCE /* TestLearnSwift4Generics.swift */; };
 		18488F684BF6A5FD3485E953 /* TestLearnSwift5Generics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18488A076EF791FBD051C8C4 /* TestLearnSwift5Generics.swift */; };
@@ -64,6 +65,7 @@
 		1848853BE672CECF2A8FEB5B /* learnswiftTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = learnswiftTests.swift; path = old/learnswiftTests.swift; sourceTree = "<group>"; };
 		184885F48F72FEF2F2D00C4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		1848867CF6E6928662577B3A /* ExtArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtArray.swift; sourceTree = "<group>"; };
+		184886CE60794BF4685E9337 /* BinarySearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinarySearch.swift; sourceTree = "<group>"; };
 		18488825C12A1349CB9373A7 /* ExtInt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtInt.swift; sourceTree = "<group>"; };
 		184888ED665B488CC1208B23 /* TestLearnSwift2Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestLearnSwift2Extensions.swift; sourceTree = "<group>"; };
 		184889C9291DCE184B8D0FCE /* TestLearnSwift4Generics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestLearnSwift4Generics.swift; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 				1848867CF6E6928662577B3A /* ExtArray.swift */,
 				18488825C12A1349CB9373A7 /* ExtInt.swift */,
 				18488E2161FAFF98F78AC984 /* TestLearnSwift7.swift */,
+				184886CE60794BF4685E9337 /* BinarySearch.swift */,
 			);
 			path = learnswiftTests;
 			sourceTree = "<group>";
@@ -310,6 +313,7 @@
 				18488272C275132F385B68DC /* ExtArray.swift in Sources */,
 				184882D784D96AAF2D92FD61 /* ExtInt.swift in Sources */,
 				18488C185B3EDC0911025CC5 /* TestLearnSwift7.swift in Sources */,
+				18488AC55387A84129BCD3B2 /* BinarySearch.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
