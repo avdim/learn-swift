@@ -41,48 +41,65 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
     let width = min(expectWrapper.width, actualWrapper.width)
     let height = Int(Double(min(expectWrapper.height, actualWrapper.height)) * 0.95)
 
-    var cacheComparePoints: [Int: Bool] = [:]
+    struct Helper {
+        let cursor: XY
+        let expect: UnsafeMutablePointer<RGB>
+        let actual: UnsafeMutablePointer<RGB>
+        let width: Int
 
-    func comparePoints(_ expectedXY: XY, _ actualXY: XY) -> Bool {
-        let expectedOffset = expectedXY.x + expectedXY.y * width
-        let actualOffset = actualXY.x + actualXY.y * width
-        return comparePixel(expect[expectedOffset], actual[actualOffset])
-        //currently ignore cacheComparePoints
-        let cacheKey = (expectedOffset << 32) + actualOffset
-        let result: Bool
-        if let value = cacheComparePoints[cacheKey] {
-            result = value
-        } else {
-            result = comparePixel(expect[expectedOffset], actual[actualOffset])
-            cacheComparePoints[cacheKey] = result
+        //todo optimize (less function calls) and array mappers
+        func getNearPoints(_ point: XY, _ distance: Int) -> Array<XY> {
+            return getZeroNearPoints(distance: distance).map { it in
+                XY(point.x + it.x, point.y + it.y)
+            }
+            return [
+                XY(point.x, point.y),
+                XY(point.x, point.y),
+                XY(point.x, point.y),
+                XY(point.x, point.y),
+                XY(point.x, point.y),
+                XY(point.x, point.y),
+                XY(point.x, point.y),
+                XY(point.x, point.y),
+                XY(point.x, point.y),
+                XY(point.x, point.y),
+            ]
+            let squareSide = (2 * distance + 1)
+            let square = squareSide * squareSide
+            return Array<XY>(unsafeUninitializedCapacity: square) { buffer, initializedCount in
+                for i in 0..<square {
+                    buffer[i] = XY(point.x, point.y)
+                }
+                initializedCount = square
+            }
         }
-        return result
-    }
 
-    //todo optimize (less function calls) and array mappers
-    func getNearPoints(_ point: XY, _ distance: Int) -> Array<XY> {
-        return getZeroNearPoints(distance: distance).map { it in
-            XY(point.x + it.x, point.y + it.y)
+        @inlinable func comparePoints(_ expectedXY: XY, _ actualXY: XY) -> Bool {
+            let expectedOffset = expectedXY.x + expectedXY.y * width
+            let actualOffset = actualXY.x + actualXY.y * width
+            return comparePixel(expect[expectedOffset], actual[actualOffset])
         }
-    }
 
-    func isGoodPoint(_ cursor: XY) -> Bool {
-        func expectedCursor() -> Bool {
+        lazy var nearPoints: Array<XY> = {
+            getNearPoints(cursor, MATCH_DISTANCE)
+        }()
+
+        lazy var expectedCursor: Bool = {
             // Сравниваем expected курсор с соседними ближайшими пикселями actual картинки
             //todo nearPoints drop first (cursor.x,cursor.y)
-            return comparePoints(cursor, cursor) || getNearPoints(cursor, MATCH_DISTANCE).atLeast(count: 1) { it in
-                return comparePoints(cursor, it)
+            comparePoints(cursor, cursor) || nearPoints.atLeast(count: 1) { it in
+                comparePoints(cursor, it)
             }
-        }
+        }()
 
-        func actualCursor() -> Bool {
+        lazy var actualCursor: Bool = {
             // Сравниваем actual курсор с соседними ближайшими пикселями expected картинки
-            return comparePoints(cursor, cursor) || getNearPoints(cursor, MATCH_DISTANCE).atLeast(count: 1) { it in
+            return comparePoints(cursor, cursor) || nearPoints.atLeast(count: 1) { it in
                 return comparePoints(it, cursor)
             }
-        }
+        }()
 
-        func tryMoveCursor() -> Bool {
+        lazy var tryMoveCursor: Bool = {
             // Пробегаем курсором по этим точкам от предыдущей позиации:
             let cursorPoints =
                     [
@@ -112,16 +129,16 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
 
                 return expectedCursor2() && actualCursor2()
             }
-        }
-
-        return expectedCursor() && actualCursor() || tryMoveCursor()
+        }()
     }
 
     var badPoints: Array<XY> = []
     for y in BRUSH_SIZE..<(height - BRUSH_SIZE) {
         for x in BRUSH_SIZE..<(width - BRUSH_SIZE) {
             let xy = XY(x, y)
-            if (!isGoodPoint(xy)) {
+            var h = Helper(cursor: xy, expect: expect, actual: actual, width: width)
+            let isGoodPoint = h.expectedCursor && h.actualCursor || h.tryMoveCursor
+            if (!isGoodPoint) {
                 badPoints.append(xy)
             }
         }
@@ -214,9 +231,9 @@ public var nearZoneCache: [Int: Array<XY>] = [:]
     var arr: Array<XY> = []
     for dx in (-distance)...distance {
         for dy in (-distance)...distance {
-            if (dx == dy || dx == -dy || dx == 0 || dy == 0) {
+//            if (dx == dy || dx == -dy || dx == 0 || dy == 0) {
                 arr.append(XY(dx, dy))
-            }
+//            }
         }
     }
     return arr.sorted(by: { a, b in
