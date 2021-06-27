@@ -19,6 +19,12 @@ class TestCompareImages: XCTestCase {
         XCTAssertFalse(compareTutuSnapshots(expectImg: imageLocal, actualImg: imageGH))
     }
 
+    func testCompareDifferentFailedImages() {
+        let imageGH = getProjectDirImage(imagePath: "compare/github/InfoUITests/testSchedulePastDateActionSheet.1.png")
+        let imageLocal = getProjectDirImage(imagePath: "compare/local/TechSupportUITests/testDefaultView.1.png")
+        XCTAssertFalse(compareTutuSnapshots(expectImg: imageLocal, actualImg: imageGH))
+    }
+
 }
 
 public let COLOR_THRESHOLD: Int32 = 40
@@ -53,6 +59,7 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
         return result
     }
 
+    //todo optimize (less function calls) and array mappers
     func getNearPoints(_ point: XY, _ distance: Int) -> Array<XY> {
         return getZeroNearPoints(distance: distance).map { it in
             XY(point.x + it.x, point.y + it.y)
@@ -60,18 +67,17 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
     }
 
     func isGoodPoint(_ cursor: XY) -> Bool {
-        let nearPoints: Array<XY> = getNearPoints(cursor, MATCH_DISTANCE)
-
         func expectedCursor() -> Bool {
             // Сравниваем expected курсор с соседними ближайшими пикселями actual картинки
-            return nearPoints.atLeast(count: 1) { it in
+            //todo nearPoints drop first (cursor.x,cursor.y)
+            return comparePoints(cursor, cursor) || getNearPoints(cursor, MATCH_DISTANCE).atLeast(count: 1) { it in
                 return comparePoints(cursor, it)
             }
         }
 
         func actualCursor() -> Bool {
             // Сравниваем actual курсор с соседними ближайшими пикселями expected картинки
-            return nearPoints.atLeast(count: 1) { it in
+            return comparePoints(cursor, cursor) || getNearPoints(cursor, MATCH_DISTANCE).atLeast(count: 1) { it in
                 return comparePoints(it, cursor)
             }
         }

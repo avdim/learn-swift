@@ -45,8 +45,19 @@ class TestLearnSwift7: XCTestCase {
         print(wrapper.x)
     }
 
+    func testArrayInitializers() {
+        var myArray = Array<Int>(unsafeUninitializedCapacity: 10) { buffer, initializedCount in
+            for x in 1..<5 {
+                buffer[x] = x
+            }
+            buffer[0] = 10
+            initializedCount = 5
+        }
+        print(myArray)
+    }
+
     func test() {
-        inlineMe()
+
     }
 
 }
