@@ -10,29 +10,58 @@ class TestCompareImages: XCTestCase {
     func testCompareSuccessImages() {
         let imageGH: CGImage = getProjectDirImage(imagePath: "compare/github/MainScreenUITests/testEmptyArrivalStationAlert.1.png")
         let imageLocal = getProjectDirImage(imagePath: "compare/local/MainScreenUITests/testEmptyArrivalStationAlert.1.png")
-        XCTAssertTrue(compareTutuSnapshots(expectImg: imageLocal, actualImg: imageGH))
+        let result = compareTutuSnapshots(expectImg: imageLocal, actualImg: imageGH)
+        result.image?.saveToFile(name: "compare_success.png")
+        XCTAssertTrue(result.success)
     }
 
     func testCompareFailedImages() {
         let imageGH = getProjectDirImage(imagePath: "compare/github/InfoUITests/testSchedulePastDateActionSheet.1.png")
         let imageLocal = getProjectDirImage(imagePath: "compare/local/InfoUITests/testSchedulePastDateActionSheet.1.png")
-        XCTAssertFalse(compareTutuSnapshots(expectImg: imageLocal, actualImg: imageGH))
+        let result = compareTutuSnapshots(expectImg: imageLocal, actualImg: imageGH)
+        result.image?.saveToFile(name: "compare_failed.png")
+        XCTAssertFalse(result.success)
     }
 
     func testCompareDifferentFailedImages() {
         let imageGH = getProjectDirImage(imagePath: "compare/github/InfoUITests/testSchedulePastDateActionSheet.1.png")
         let imageLocal = getProjectDirImage(imagePath: "compare/local/TechSupportUITests/testDefaultView.1.png")
-        XCTAssertFalse(compareTutuSnapshots(expectImg: imageLocal, actualImg: imageGH))
+        let result = compareTutuSnapshots(expectImg: imageLocal, actualImg: imageGH)
+        result.image?.saveToFile(name: "compare_different_fail")
+        XCTAssertFalse(result.success)
     }
 
 }
 
 public let COLOR_THRESHOLD: Int32 = 40
-let MATCH_DISTANCE: Int = 7
-let MAX_BAD_POINTS_INSIDE_DISTANCE = 14
+let NEAR_DISTANCE: Int = 6
+let MAX_BAD_POINTS_INSIDE_DISTANCE = 22
 let BRUSH_SIZE = 4
 
-func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //todo return diff image ->(success:Bool, diff:CGImage?)
+enum SnapshotResult {
+    case SUCCESS
+    case FAIL(img: PixelWrapper)
+
+    var success: Bool {
+        switch (self) {
+        case .SUCCESS:
+            return true
+        case .FAIL:
+            return false
+        }
+    }
+
+    var image: PixelWrapper? {
+        switch (self) {
+        case .SUCCESS:
+            return nil
+        case .FAIL(let img):
+            return img
+        }
+    }
+}
+
+func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> SnapshotResult { //todo return diff image ->(success:Bool, diff:CGImage?)
     print("execute", #function)
     let expectWrapper = PixelWrapper(cgImage: expectImg)
     let actualWrapper = PixelWrapper(cgImage: actualImg)
@@ -82,7 +111,7 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
         }
 
         lazy var nearPoints: Array<XY> = {
-            getNearPoints(cursor, MATCH_DISTANCE)
+            getNearPoints(cursor, NEAR_DISTANCE)
         }()
 
         lazy var expectedCursor: Bool = {
@@ -144,8 +173,8 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
     }
 
     var badPointsSortedByY: Array<XY> = [] //Так как мы итерируем первый цикл по Y, то этот массив отсортирован по Y
-    for y in MATCH_DISTANCE..<(height - MATCH_DISTANCE) {
-        for x in MATCH_DISTANCE..<(width - MATCH_DISTANCE) {
+    for y in NEAR_DISTANCE..<(height - NEAR_DISTANCE) {
+        for x in NEAR_DISTANCE..<(width - NEAR_DISTANCE) {
             let xy = XY(x, y)
             var h = Helper(cursor: xy, expect: expect, actual: actual, width: width)
             let isGoodPoint = h.expectedCursor && h.actualCursor /*|| h.tryMoveCursor*/
@@ -154,7 +183,16 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
             }
         }
     }
-
+    if (badPointsSortedByY.count > width * height / 4) {
+        let diffWrapper = PixelWrapper(cgImage: actualImg)
+        diffWrapper.mapEachPixel { rgb in
+            RGB(rgb.r / 3, rgb.g / 3, rgb.b / 3)
+        }
+        for pt in badPointsSortedByY {
+            diffWrapper[pt.x, pt.y] = RGB.red
+        }
+        return .FAIL(img: diffWrapper)
+    }
     var visitedPoints: Set<XY> = []
     var failedPoints: Set<XY> = []
     for current in badPointsSortedByY {
@@ -162,28 +200,28 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
             continue
         }
 
-        let startIndex:Int
+        let startIndex: Int
         if let it = badPointsSortedByY.binarySearchFirstIndex { p in
-            p.y >= current.y - MATCH_DISTANCE
+            p.y >= current.y - NEAR_DISTANCE
         } {
             startIndex = it
         } else {
             startIndex = 0
         }
 
-        let endIndex:Int
+        let endIndex: Int
         if let it = badPointsSortedByY.binarySearchLastIndex { p in
-            p.y <= current.y + MATCH_DISTANCE
+            p.y <= current.y + NEAR_DISTANCE
         } {
             endIndex = it
         } else {
             endIndex = badPointsSortedByY.count - 1
         }
 
-        var badPointsNear:Set<XY> = []
+        var badPointsNear: Set<XY> = []
         for i in startIndex...endIndex {
             let p = badPointsSortedByY[i]
-            if (p != current && current.distance(p) <= MATCH_DISTANCE) {
+            if (p != current && current.distance(p) <= NEAR_DISTANCE) {
                 badPointsNear.insert(p)
             }
         }
@@ -208,11 +246,9 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
                 }
             }
         }
-        //todo move out of function
-        diffWrapper.saveToFile(name: "diff_\(UInt16.random(in: UInt16.min...UInt16.max)).png")
-        return false
+        return .FAIL(img: diffWrapper)
     } else {
-        return true
+        return .SUCCESS
     }
 //    return if (booleanResult) {
 //        SnapshotResult.Success
