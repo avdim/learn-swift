@@ -21,11 +21,12 @@ class TestCompareImages: XCTestCase {
 
 }
 
-let COLOR_THRESHOLD: Int32 = 40
+public let COLOR_THRESHOLD: Int32 = 40
 let MATCH_DISTANCE: Int = 2
 let BRUSH_SIZE = MATCH_DISTANCE + 1 //BRUSH_SIZE must me >= DISTANCE
 
 func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //todo return diff image ->(success:Bool, diff:CGImage?)
+    print("execute", #function)
     let expectWrapper = PixelWrapper(cgImage: expectImg)
     let actualWrapper = PixelWrapper(cgImage: actualImg)
     let expect = expectWrapper.pixelBuffer
@@ -54,7 +55,7 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
 
     func getNearPoints(_ point: XY, _ distance: Int) -> Array<XY> {
         return getZeroNearPoints(distance: distance).map { it in
-            XY(x: point.x + it.x, y: point.y + it.y)
+            XY(point.x + it.x, point.y + it.y)
         }
     }
 
@@ -79,12 +80,12 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
             // Пробегаем курсором по этим точкам от предыдущей позиации:
             let cursorPoints =
                     [
-                        XY(x: cursor.x + 1, y: cursor.y),
-                        XY(x: cursor.x - 1, y: cursor.y),
-                        XY(x: cursor.x, y: cursor.y + 1),
-                        XY(x: cursor.x, y: cursor.y - 1),
-                        XY(x: cursor.x + 1, y: cursor.y + 1), //Pt(x: x - 1,y:  y + 1), Pt(x: x + 1,y:  y - 1),
-                        XY(x: cursor.x - 1, y: cursor.y - 1),
+                        XY(cursor.x + 1, cursor.y),
+                        XY(cursor.x - 1, cursor.y),
+                        XY(cursor.x, cursor.y + 1),
+                        XY(cursor.x, cursor.y - 1),
+                        XY(cursor.x + 1, cursor.y + 1), //Pt(x: x - 1,y:  y + 1), Pt(x: x + 1,y:  y - 1),
+                        XY(cursor.x - 1, cursor.y - 1),
                     ]
             return cursorPoints.atLeast(count: 1) { cursor2 in
                 let nearPoints: Array<XY> = getNearPoints(cursor2, MATCH_DISTANCE - 1)
@@ -113,7 +114,7 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
     var badPoints: Array<XY> = []
     for y in BRUSH_SIZE..<(height - BRUSH_SIZE) {
         for x in BRUSH_SIZE..<(width - BRUSH_SIZE) {
-            let xy = XY(x: x, y: y)
+            let xy = XY(x, y)
             if (!isGoodPoint(xy)) {
                 badPoints.append(xy)
             }
@@ -144,14 +145,19 @@ func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> Bool { //to
 //    }
 }
 
-struct XY {
-    let x: Int
-    let y: Int
+public struct XY {
+    public let x: Int
+    public let y: Int
+
+    public init(_ x: Int, _ y: Int) {
+        self.x = x
+        self.y = y
+    }
 }
 
-var comparePixelsCache: [Int32: Bool] = [:]
+public var comparePixelsCache: [Int32: Bool] = [:]
 
-func comparePixel(_ expect: RGB, _ actual: RGB) -> Bool {
+@inlinable func comparePixel(_ expect: RGB, _ actual: RGB) -> Bool {
     //Это коммутативная функцния, порядок аргументов не имеет значения
     func comparePixelsLogic(_ expect: RGB, _ actual: RGB) -> Bool {
         let rAbs = abs(expect.r - actual.r)
@@ -189,23 +195,25 @@ func comparePixel(_ expect: RGB, _ actual: RGB) -> Bool {
     return result
 }
 
-var nearZoneCache: [Int: Array<XY>] = [:]
+public var nearZoneCache: [Int: Array<XY>] = [:]
 
-func getZeroNearPoints(distance: Int) -> [XY] {
+@inlinable func getZeroNearPoints(distance: Int) -> [XY] {
     if (nearZoneCache[distance] == nil) {
-        var arr: Array<XY> = []
-        for dx in (-distance)...distance {
-            for dy in (-distance)...distance {
-                if (dx == dy || dx == -dy || dx == 0 || dy == 0) {
-                    arr.append(XY(x: dx, y: dy))
-                }
-            }
-        }
-        nearZoneCache[distance] = arr.sorted(by: { a, b in
-            a.y.abs1 < b.y.abs1 || a.x.abs1 < b.x.abs1
-        })
+        nearZoneCache[distance] = getZeroNearPointsLogic(distance: distance)
     }
     return nearZoneCache[distance]!
 }
 
-
+@inlinable func getZeroNearPointsLogic(distance: Int) -> Array<XY> {
+    var arr: Array<XY> = []
+    for dx in (-distance)...distance {
+        for dy in (-distance)...distance {
+            if (dx == dy || dx == -dy || dx == 0 || dy == 0) {
+                arr.append(XY(dx, dy))
+            }
+        }
+    }
+    return arr.sorted(by: { a, b in
+        a.y.abs1 < b.y.abs1 || a.x.abs1 < b.x.abs1
+    })
+}

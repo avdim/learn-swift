@@ -5,20 +5,20 @@
 import Foundation
 
 extension Int {
-    var absMask: Int {
+    public var absMask: Int {
         return self >> 31 //0x1F = 31 // 0 если >=0, -1 если <0
     }
-    var abs1: Int {
+    public var abs1: Int {
 //        return abs(self)
         return (absMask ^ self) &- absMask //todo maybe &- redundant
     }
 }
 
 extension Int32 {
-    var absMask: Int32 {
+    public var absMask: Int32 {
         return self >> 31 //0x1F = 31 // 0 если >=0, -1 если <0
     }
-    var abs1: Int32 {
+    public var abs1: Int32 {
 //        return abs(self)
         return (absMask ^ self) &- absMask //todo maybe &- redundant
     }

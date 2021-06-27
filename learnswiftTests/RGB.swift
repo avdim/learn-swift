@@ -5,18 +5,18 @@ import XCTest
 //struct RGB/*: Equatable*/ {
 //    private var argbColor: Int32
 
-typealias RGB = Int32
+public typealias RGB = Int32
 
 extension RGB {
-    var r: Int32 {
+    @inlinable public var r: Int32 {
         return (self >> 16) & 0xFF
     }
 
-    var g: Int32 {
+    @inlinable public var g: Int32 {
         return (self >> 8) & 0xFF
     }
 
-    var b: Int32 {
+    @inlinable public var b: Int32 {
         return (self >> 0) & 0xFF
     }
 
