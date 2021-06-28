@@ -69,7 +69,7 @@ class TestLearnSwift7: XCTestCase {
     }
 
     func testThrowError() {
-        fatalError("Ooops")
+//        fatalError("Ooops")
     }
 
     func test() {
