@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		184880038926CB9E4F1B1D4E /* TestFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18488F2C33C7C16C56316E9A /* TestFileManager.swift */; };
 		1848801E546FAA12EA7B9340 /* ExtCGImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18488F3D9CA7022D9B95E167 /* ExtCGImage.swift */; };
+		184880B1D2A08B82A7A29C95 /* TutuCompareSnapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184880301FEE7E208064F38F /* TutuCompareSnapshots.swift */; };
 		184880E672070637E1359E7C /* TestLearnSwift0.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184882CC149C43308CCE6DF5 /* TestLearnSwift0.swift */; };
 		1848814D44108E74A1F7E71F /* TestLearnSwift2Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184888ED665B488CC1208B23 /* TestLearnSwift2Extensions.swift */; };
 		1848819DAA31A7CE4F75D2C2 /* RGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1848812ED57C7DF66FDC9BF2 /* RGB.swift */; };
@@ -51,6 +52,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		184880301FEE7E208064F38F /* TutuCompareSnapshots.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutuCompareSnapshots.swift; sourceTree = "<group>"; };
 		18488056EDA047F9A9D46CED /* TestLearnSwift3Dsl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestLearnSwift3Dsl.swift; sourceTree = "<group>"; };
 		184880FF5D268EDD7E16043B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		1848812ED57C7DF66FDC9BF2 /* RGB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGB.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 				18488825C12A1349CB9373A7 /* ExtInt.swift */,
 				18488E2161FAFF98F78AC984 /* TestLearnSwift7.swift */,
 				184886CE60794BF4685E9337 /* BinarySearch.swift */,
+				184880301FEE7E208064F38F /* TutuCompareSnapshots.swift */,
 			);
 			path = learnswiftTests;
 			sourceTree = "<group>";
@@ -314,6 +317,7 @@
 				184882D784D96AAF2D92FD61 /* ExtInt.swift in Sources */,
 				18488C185B3EDC0911025CC5 /* TestLearnSwift7.swift in Sources */,
 				18488AC55387A84129BCD3B2 /* BinarySearch.swift in Sources */,
+				184880B1D2A08B82A7A29C95 /* TutuCompareSnapshots.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

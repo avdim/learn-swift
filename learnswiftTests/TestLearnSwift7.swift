@@ -56,6 +56,22 @@ class TestLearnSwift7: XCTestCase {
         print(myArray)
     }
 
+    func testXCTAttachment() {
+//        func saveAttachment(attachment:XCTAttachment) {
+//            attachment.name
+//        }
+    }
+
+    func testPrintCallstack() {
+        Thread.callStackSymbols.forEach {
+            print($0)
+        }
+    }
+
+    func testThrowError() {
+        fatalError("Ooops")
+    }
+
     func test() {
 
     }
@@ -66,3 +82,13 @@ class TestLearnSwift7: XCTestCase {
 func inlineMe() {
 
 }
+
+//class MyAttachment: XCTAttachment {
+//    let img: UIImage
+//    func save(fileName:String) {
+//
+//    }
+//    init(image: UIImage) {
+//
+//    }
+//}
