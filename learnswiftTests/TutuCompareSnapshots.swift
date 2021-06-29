@@ -33,6 +33,21 @@ enum SnapshotResult {
     }
 }
 
+func compareTutuSnapshots(expected: UIImage, actual: UIImage) -> UIImage? {
+    guard let expectedCGImage: CGImage = expected.cgImage, let actualCGImage = actual.cgImage else {
+        fatalError("expected.cgImage == \(expected.cgImage) || actual.cgImage == \(actual.cgImage)")
+    }
+    let result = compareTutuSnapshots(expectImg: expectedCGImage, actualImg: actualCGImage)
+    if (result.success) {
+        return nil
+    } else {
+        guard let resultCGImage = result.image?.cgContext.makeImage() else {
+            fatalError("resultCGImage is nil")
+        }
+        return UIImage(cgImage: resultCGImage)
+    }
+}
+
 func compareTutuSnapshots(expectImg: CGImage, actualImg: CGImage) -> SnapshotResult { //todo return diff image ->(success:Bool, diff:CGImage?)
     print("execute", #function)
     let expectWrapper = PixelWrapper(cgImage: expectImg)

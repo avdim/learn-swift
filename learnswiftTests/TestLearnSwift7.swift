@@ -72,6 +72,25 @@ class TestLearnSwift7: XCTestCase {
 //        fatalError("Ooops")
     }
 
+    func testConstants() {
+        print("#file", #file)
+        print("#function", #function)
+        print("#column", #column)
+        print("#fileID", #fileID)
+        print("FileManager.default.currentDirectoryPath", FileManager.default.currentDirectoryPath)
+    }
+
+    func testFilePaths() {
+        let filePathStr = #file
+        print(filePathStr)
+    }
+
+    func testBashCall() {
+        for env: (key: String, value: String) in ProcessInfo.processInfo.environment {
+            print(env)
+        }
+    }
+
     func test() {
 
     }
