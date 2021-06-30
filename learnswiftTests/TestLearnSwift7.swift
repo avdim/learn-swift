@@ -91,6 +91,39 @@ class TestLearnSwift7: XCTestCase {
         }
     }
 
+    func testRetry1() {
+        return
+        //not work:
+        let maxTries = 5
+        var triesCount = 0
+        lp: while(true) {
+            do {
+                triesCount += 1
+                print("triesCount: \(triesCount)")
+                if (triesCount <= maxTries) {
+                    print("try \(triesCount)")
+                    XCTAssertEqual(3, triesCount)
+                    break
+                } else {
+                    print("tries over \(triesCount)")
+                    break
+                }
+            } catch {
+                print("catch block")
+            }
+        }
+    }
+
+    func testRetryClass() {
+        return
+        // not working:
+        var i = 0
+        retry(max: 5) {
+            i = i+1
+            XCTAssertEqual(3, i)
+        }
+    }
+
     func test() {
 
     }
