@@ -7,15 +7,21 @@ import XCTest
 
 var globalCounter = 0
 
-class TestLearnSwift9UseRetryableTestCase : RetryableTestCase {
+class TestLearnSwift9UseRetryableTestCase: RetryableTestCase {
     //https://github.com/KaneCheshire/Retryable
     func testNotFixable() {
-        flaky(.notFixable(reason: "There's a race condition here!", maxRetryCount: 3)) {
+        retry(maxRetries: 3) {
             globalCounter += 1
             print("globalCounter: \(globalCounter)")
             XCTAssertEqual(2, globalCounter)
-//            XCTAssert(somethingToAssert)
         }
     }
 }
 
+extension RetryableTestCase {
+    func retry(maxRetries: Int, _ lambda: () -> Void ) {
+        flaky(.notFixable(reason: "", maxRetryCount: maxRetries)) {
+            lambda()
+        }
+    }
+}
